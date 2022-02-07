@@ -105,7 +105,7 @@ public class UsageExample {
 		ja.put(123.34);
 		ja.put(3.23);
 		ja.put(4.234);
-		jo1.put("d", ja); 
+		jo1.put("d", ja);
 
 		// we put another JSON into 'jo1'
 		JSONObject jo2 = new JSONObject();
