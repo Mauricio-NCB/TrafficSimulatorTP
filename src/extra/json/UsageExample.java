@@ -12,7 +12,7 @@ public class UsageExample {
 	static String jsonString = "{ \"a\": 1234, \"b\": 2e-10, \"c\": \"Hola!\", \"d\": [1,2,3], \"e\": { \"k\" : 123,  \"h\" : \"Helloooo!\", \"f\": 23.3e-10 }}";
 
 	/**
-	 * Accessing the elements of a JSONObject
+	 * Accessing the elements of a JSONObject.
 	 */
 	static public void accessExample(JSONObject jo) {
 
