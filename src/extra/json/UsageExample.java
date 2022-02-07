@@ -12,7 +12,7 @@ public class UsageExample {
 	static String jsonString = "{ \"a\": 1234, \"b\": 2e-10, \"c\": \"Hola!\", \"d\": [1,2,3], \"e\": { \"k\" : 123,  \"h\" : \"Helloooo!\", \"f\": 23.3e-10 }}";
 
 	/**
-	 * Accessing the elements of a JSONObject.
+	 * Accessing the elements of a JSONObject
 	 */
 	static public void accessExample(JSONObject jo) {
 
@@ -105,7 +105,7 @@ public class UsageExample {
 		ja.put(123.34);
 		ja.put(3.23);
 		ja.put(4.234);
-		jo1.put("d", ja);
+		jo1.put("d", ja); 
 
 		// we put another JSON into 'jo1'
 		JSONObject jo2 = new JSONObject();
