@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 public class Vehicle extends SimulatedObject {
 
+	private int distance;
 	private int location;
 	private int speed;
 	private int maxSpeed;
@@ -21,15 +22,19 @@ public class Vehicle extends SimulatedObject {
 			if (maxSpeed < 0 || contClass < 0 || contClass > 10 || itinerary.size() < 2) {
 				throw new Exception("Datos del vehiculo son invalidos");
 			}
-			this.maxSpeed = maxSpeed;
-			this.contClass = contClass;
-			this.itinerary = itinerary;
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		this.maxSpeed = maxSpeed;
+		this.contClass = contClass;
+		this.itinerary = itinerary;
 	}
 
+	void moveToNextRoad() {
+		
+	}
+	
 	@Override
 	void advance(int time) {
 		// TODO Auto-generated method stub
@@ -39,7 +44,17 @@ public class Vehicle extends SimulatedObject {
 	@Override
 	public JSONObject report() {
 		// TODO Auto-generated method stub
-		return null;
+		JSONObject jo = new JSONObject();
+		jo.put("id", super.getId());
+		jo.put("speed", this.speed);
+		jo.put("distance", this.distance);
+		jo.put("co2", this.totalCO2);
+		jo.put("class", this.contClass);
+		jo.put("status", this.status);
+		jo.put("road", this.road);
+		jo.put("location", this.location);
+		
+		return jo;
 	}
 
 	public int getLocation() {
@@ -72,5 +87,29 @@ public class Vehicle extends SimulatedObject {
 	
 	public Road getRoad() {
 		return road;
+	}
+	
+	private void setSpeed(int s) {
+		try {
+			if (s < 0) {
+				throw new Exception("Speed must be negative");
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		speed = s;
+	}
+	
+	private void setContClass(int c) {
+		try {
+			if (c > 10 || c < 0) {
+				throw new Exception("Contamination class must be beetween 0 and 10 (both inclusive)");
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		contClass = c;
 	}
 }
