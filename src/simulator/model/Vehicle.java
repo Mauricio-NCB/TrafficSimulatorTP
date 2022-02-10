@@ -46,6 +46,31 @@ public class Vehicle extends SimulatedObject {
 		return location;
 	}
 	
-	public 
+	public int getSpeed() {
+		return speed;
+	}
 	
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+	
+	public int getContClass() {
+		return contClass;
+	}
+	
+	public VehicleStatus getStatus() {
+		return status;
+	}
+	
+	public int getTotalCO2() {
+		return totalCO2;
+	}
+	
+	public List<Junction> getItinerary() {
+		return itinerary;
+	}
+	
+	public Road getRoad() {
+		return road;
+	}
 }
