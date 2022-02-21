@@ -32,13 +32,37 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	void moveToNextRoad() {
+		try {
+			if (this.status == VehicleStatus.ARRIVED || this.status == VehicleStatus.TRAVELING) {
+				throw new Exception("El estado del vehiculo no permite el cambio a otra carretera");
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
+		speed = 0;
+		location = 0;
+		road.enter(this);
+		// Metodo de junction para para encontrar la siguiente carretera 
 	}
 	
 	@Override
 	void advance(int time) {
 		// TODO Auto-generated method stub
-		
+		if (this.status == VehicleStatus.TRAVELING) {
+			int prevLocation = location;
+			location += speed;
+			
+			int contProduced = contClass * (location - prevLocation);
+			totalCO2 += contProduced;
+			road.addContamination(contProduced);
+			
+			if (location >= road.getLength()) {
+				//llamada al metodo de junction para esperar en la cola
+				
+			}
+		}
 	}
 
 	@Override
@@ -89,7 +113,7 @@ public class Vehicle extends SimulatedObject {
 		return road;
 	}
 	
-	public void setSpeed(int s) {
+	void setSpeed(int s) {
 		try {
 			if (s < 0) {
 				throw new Exception("Speed must be negative");
@@ -101,7 +125,7 @@ public class Vehicle extends SimulatedObject {
 		speed = s;
 	}
 	
-	public void setContClass(int c) {
+	void setContClass(int c) {
 		try {
 			if (c > 10 || c < 0) {
 				throw new Exception("Contamination class must be beetween 0 and 10 (both inclusive)");
