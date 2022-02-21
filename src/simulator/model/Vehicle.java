@@ -89,7 +89,7 @@ public class Vehicle extends SimulatedObject {
 		return road;
 	}
 	
-	private void setSpeed(int s) {
+	public void setSpeed(int s) {
 		try {
 			if (s < 0) {
 				throw new Exception("Speed must be negative");
@@ -101,7 +101,7 @@ public class Vehicle extends SimulatedObject {
 		speed = s;
 	}
 	
-	private void setContClass(int c) {
+	public void setContClass(int c) {
 		try {
 			if (c > 10 || c < 0) {
 				throw new Exception("Contamination class must be beetween 0 and 10 (both inclusive)");

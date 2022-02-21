@@ -1,7 +1,6 @@
 package simulator.model;
 
 import java.util.List;
-
 import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject{
@@ -19,7 +18,7 @@ public abstract class Road extends SimulatedObject{
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather){
 		super(id);
 		try{
-			
+			// TODO ?????
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -28,13 +27,17 @@ public abstract class Road extends SimulatedObject{
 
 	@Override
 	void advance(int time) {
-		// TODO Auto-generated method stub
-		
+		this.reduceTotalContamination();
+		this.updateSpeedLimit();
+		for(Vehicle v: vehicles){
+			this.calculateVehicleSpeed(v);
+			v.advance(time);
+		}
+			
 	}
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -96,6 +99,20 @@ public abstract class Road extends SimulatedObject{
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	public void enter(Vehicle v){
+		try{
+			if(v.getLocation()!=0 && v.getSpeed()!=0){
+				throw new Exception("Error al meter carretera");
+			}
+			vehicles.add(v);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void exit(Vehicle v){
+		vehicles.remove(v);
 	}
 	public abstract void reduceTotalContamination();
 	
