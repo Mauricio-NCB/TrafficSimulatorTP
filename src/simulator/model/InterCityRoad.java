@@ -17,7 +17,10 @@ public class InterCityRoad extends Road{
 	@Override
 	public void updateSpeedLimit() {
 		if(this.getTotalCO2()>this.getContLimit()){
-			// TODO
+			
+		}
+		else{
+			
 		}
 		
 	}

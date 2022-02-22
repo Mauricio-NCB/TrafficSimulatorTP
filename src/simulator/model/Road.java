@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.List;
+
 import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject{
@@ -17,12 +18,20 @@ public abstract class Road extends SimulatedObject{
 	
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather){
 		super(id);
-		try{
-			// TODO ?????
+		try {
+			if(maxSpeed < 0 || contLimit < 0 || length < 0 || srcJunc == null || destJunc == null || weather == null){
+				throw new Exception("Datos de la carretera invalidos");
+			}
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		this.srcJunc = srcJunc;
+		this.destJunc = destJunc;
+		this.maxSpeed = maxSpeed;
+		this.contLimit = contLimit;
+		this.length = length;
+		this.weather = weather;
 	}
 
 	@Override
@@ -32,13 +41,18 @@ public abstract class Road extends SimulatedObject{
 		for(Vehicle v: vehicles){
 			this.calculateVehicleSpeed(v);
 			v.advance(time);
-		}
-			
+		}	
 	}
 
 	@Override
 	public JSONObject report() {
-		return null;
+		JSONObject jo = new JSONObject();
+		jo.put("id", super.getId());
+		jo.put("speedlimit", this.currentSpeedLimit);
+		jo.put("weather", this.weather);
+		jo.put("co2", this.totalCont);
+		jo.put("vehicles", this.vehicles);
+		return jo;
 	}
 	
 	public int getLength(){
