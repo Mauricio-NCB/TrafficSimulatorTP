@@ -10,17 +10,28 @@ public class InterCityRoad extends Road{
 
 	@Override
 	public void reduceTotalContamination() {
-		// TODO Auto-generated method stub
+		switch(this.getWeather()){
+		case SUNNY:
+			super.totalCont=((int)((100.0-2)/100.0)*super.totalCont);
+		case CLOUDY:
+			super.totalCont=((int)((100.0-3)/100.0)*super.totalCont);
+		case RAINY:
+			super.totalCont=((int)((100.0-10)/100.0)*super.totalCont);
+		case WINDY:
+			super.totalCont=((int)((100.0-15)/100.0)*super.totalCont);
+		case STORM:
+			super.totalCont=((int)((100.0-20)/100.0)*super.totalCont);
+		}
 		
 	}
 
 	@Override
 	public void updateSpeedLimit() {
 		if(this.getTotalCO2()>this.getContLimit()){
-			
+			super.currentSpeedLimit = (int)(super.maxSpeed*0.5);
 		}
 		else{
-			
+			super.currentSpeedLimit = super.maxSpeed;
 		}
 		
 	}
