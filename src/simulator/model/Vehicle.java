@@ -44,7 +44,7 @@ public class Vehicle extends SimulatedObject {
 		speed = 0;
 		location = 0;
 		road.enter(this);
-		// Metodo de junction para para encontrar la siguiente carretera 
+		// Metodo de junction para encontrar la siguiente carretera 
 	}
 	
 	@Override
