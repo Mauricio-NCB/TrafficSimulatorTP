@@ -18,6 +18,7 @@ public class Vehicle extends SimulatedObject {
 	
 	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
 		super(id);
+		
 		try {
 			if (maxSpeed < 0 || contClass < 0 || contClass > 10 || itinerary.size() < 2) {
 				throw new Exception("Datos del vehiculo son invalidos");
@@ -26,9 +27,11 @@ public class Vehicle extends SimulatedObject {
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
 		this.maxSpeed = maxSpeed;
 		this.contClass = contClass;
 		this.itinerary = itinerary;
+		this.status = VehicleStatus.PENDING;
 	}
 
 	void moveToNextRoad() {
@@ -43,7 +46,14 @@ public class Vehicle extends SimulatedObject {
 		
 		speed = 0;
 		location = 0;
-		road.enter(this);
+		road.exit(this);
+		
+		if (this.status == VehicleStatus.PENDING) {
+			itinerary.get(0).inRoadsList.get(0);
+		}
+		else if (this.status == VehicleStatus.WAITING) {
+			
+		}
 		// Metodo de junction para encontrar la siguiente carretera 
 	}
 	
@@ -59,8 +69,7 @@ public class Vehicle extends SimulatedObject {
 			road.addContamination(contProduced);
 			
 			if (location >= road.getLength()) {
-				//llamada al metodo de junction para esperar en la cola
-				
+				road.getDest().enter(this);
 			}
 		}
 	}
