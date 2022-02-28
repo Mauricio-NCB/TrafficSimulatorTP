@@ -6,8 +6,8 @@ import simulator.model.Event;
 
 public class SetWeatherEventBuilder extends Builder<Event>{
 
-	SetWeatherEventBuilder(String type) {
-		super(type);
+	SetWeatherEventBuilder() {
+		super("");
 		// TODO Auto-generated constructor stub
 	}
 
