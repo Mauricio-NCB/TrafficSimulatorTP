@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -36,20 +37,17 @@ public class RoadMap {
 	public void reset(){
 		
 	}
-	/*
 	
 	public List<Junction> getJunctions(){
-		return;
+		return Collections.unmodifiableList(junctions);
 	}
+	
 	public List<Road> getRoads(){
-		return;
+		return Collections.unmodifiableList(roads);
 	}
 	public List<Vehicle> getVehicles(){
-		return;
+		return Collections.unmodifiableList(vehicles);
 	}
-	public JSONObject report() {
-		
-	}*/
 	
 	public Junction getJunction(String id){
 		
@@ -77,5 +75,10 @@ public class RoadMap {
 		else {
 			return null;
 		}
+	}
+	
+	public JSONObject report() {
+		
+		return null;
 	}
 }
