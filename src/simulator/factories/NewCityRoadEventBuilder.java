@@ -4,15 +4,15 @@ import org.json.JSONObject;
 
 import simulator.model.Event;
 
-public class NewCityRoadEventBuilder extends Builder<Event> {
+public class NewCityRoadEventBuilder extends NewRoadEventBuilder {
 
-	NewCityRoadEventBuilder() {
-		super("");
+	public NewCityRoadEventBuilder() {
+		super("new_city_road");
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected Event createTheInstance(JSONObject data) {
+	Event createTheRoad() {
 		// TODO Auto-generated method stub
 		return null;
 	}

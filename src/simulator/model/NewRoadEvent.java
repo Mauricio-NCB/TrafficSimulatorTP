@@ -10,7 +10,7 @@ public abstract class NewRoadEvent extends Event {
 	private int maxSpeed;
 	private Weather weather;
 	
-	NewRoadEvent(int time, String id, String srcJunc, String destJunc, int length, int co2Limit, int maxSpeed, Weather weather) {
+	public NewRoadEvent(int time, String id, String srcJunc, String destJunc, int length, int co2Limit, int maxSpeed, Weather weather) {
 		super(time);
 		// TODO Auto-generated constructor stub
 		this.id = id;

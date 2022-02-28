@@ -8,7 +8,7 @@ public class NewJunctionEvent extends Event {
 	private int xCoor;
 	private int yCoor;
 	
-	NewJunctionEvent(int time, String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
+	public NewJunctionEvent(int time, String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(time);
 		// TODO Auto-generated constructor stub
 		this.id = id;

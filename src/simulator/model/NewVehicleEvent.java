@@ -10,7 +10,7 @@ public class NewVehicleEvent extends Event {
 	private int contClass;
 	private List<String> itinerary;
 	
-	NewVehicleEvent(int time, String id, int maxSpeed, int contClass, List<String> itinerary) {
+	public NewVehicleEvent(int time, String id, int maxSpeed, int contClass, List<String> itinerary) {
 		super(time);
 		// TODO Auto-generated constructor stub
 		this.id = id;
