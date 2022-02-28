@@ -52,7 +52,7 @@ public class RoadMap {
 	}
 	public void addVehicle(Vehicle v){
 		try{
-			if(mapStringVehicle.containsKey(v.getId())){   ////TODO ITERATOR
+			if(mapStringVehicle.containsKey(v.getId()/*||(*/)){   ////TODO ITERATOR
 				throw new Exception("Fallo al añadir vehiculo.");
 			}
 			vehicles.add(v);
