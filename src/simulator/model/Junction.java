@@ -86,11 +86,10 @@ public class Junction extends SimulatedObject {
 	void advance(int time) {
 		// TODO Auto-generated method stub
 		List<Vehicle> dequeued = dqStrategy.dequeue(qsList.get(indexGreenLight));
-		List<Vehicle> q = qsList.get(indexGreenLight);
 		
 		for (Vehicle v: dequeued) {
 			v.moveToNextRoad();
-			q.remove(v);
+			qsList.get(indexGreenLight).remove(v);
 		}
 		
 		int nextGreen;

@@ -1,7 +1,9 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import org.json.JSONObject;
 
 public class RoadMap {
@@ -14,12 +16,12 @@ public class RoadMap {
 	private Map<String,Vehicle> mapStringVehicle;
 	
 	protected RoadMap(){
-		this.junctions = junctions;
-		this.roads = roads;
-		this.vehicles = vehicles;
-		this.mapStringJunction = mapStringJunction;
-		this.mapStringRoad = mapStringRoad;
-		this.mapStringVehicle = mapStringVehicle;
+		this.junctions = new ArrayList<Junction>();
+		this.roads = new ArrayList<Road>();
+		this.vehicles = new ArrayList<Vehicle>();
+		this.mapStringJunction = new HashMap<String, Junction>();
+		this.mapStringRoad = new HashMap<String, Road>();
+		this.mapStringVehicle = new HashMap<String, Vehicle>();
 	}
 	
 	public void addJunction(Junction j){
@@ -34,15 +36,8 @@ public class RoadMap {
 	public void reset(){
 		
 	}
-	/*public Vehicle getVehicle(String id){
-		return;
-	}
-	public Road getRoad(String id){
-		return;
-	}
-	public Junction getJunction(String id){
-		return;
-	}
+	/*
+	
 	public List<Junction> getJunctions(){
 		return;
 	}
@@ -56,7 +51,31 @@ public class RoadMap {
 		
 	}*/
 	
+	public Junction getJunction(String id){
+		
+		if (mapStringJunction.containsKey(id)) {
+			return mapStringJunction.get(id);
+		}
+		else {
+			return null;
+		}
+	}
 	
+	public Road getRoad(String id){
+		if (mapStringRoad.containsKey(id)) {
+			return mapStringRoad.get(id);
+		}
+		else {
+			return null;
+		}
+	}
 	
-	
+	public Vehicle getVehicle(String id){
+		if (mapStringVehicle.containsKey(id)) {
+			return mapStringVehicle.get(id);
+		}
+		else {
+			return null;
+		}
+	}
 }
