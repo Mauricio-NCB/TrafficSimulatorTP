@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class RoadMap {
 	
@@ -52,8 +53,13 @@ public class RoadMap {
 	}
 	public void addVehicle(Vehicle v){
 		try{
-			if(mapStringVehicle.containsKey(v.getId()/*||(*/)){   ////TODO ITERATOR
-				throw new Exception("Fallo al añadir vehiculo.");
+			if(mapStringVehicle.containsKey(v.getId())){   
+				throw new Exception("Fallo al añadir vehiculo. Id ya existente");
+			}
+			for(int i=0;i<v.getItinerary().size()-1;i++){
+				if(v.getItinerary().get(i).roadTo(v.getItinerary().get(i+1)) == null){
+					throw new Exception("Fallo al añadir vehiculo. Itinerario no valido");
+				}
 			}
 			vehicles.add(v);
 			mapStringVehicle.put(v._id, v);
@@ -112,10 +118,22 @@ public class RoadMap {
 	}
 	
 	public JSONObject report() {
+		JSONArray junctionArray = new JSONArray();
+		JSONArray roadArray = new JSONArray();
+		JSONArray vehicleArray = new JSONArray();
 		JSONObject jo = new JSONObject();
-		jo.put("junctions", junctions);
-		jo.put("road", roads);
-		jo.put("vehicles", vehicles);
+		for(int i=0;i<junctions.size();i++){
+			junctionArray.put(i, junctions.get(i).report());
+		}
+		for(int i=0;i<roads.size();i++){
+			roadArray.put(i, roads.get(i).report());
+		}
+		for(int i=0;i<vehicles.size();i++){
+			vehicleArray.put(i, vehicles.get(i).report());
+		}
+		jo.put("junctions", junctionArray);
+		jo.put("road", roadArray);
+		jo.put("vehicles", vehicleArray);
 		return jo;
 	}
 }
