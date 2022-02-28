@@ -8,6 +8,15 @@ import simulator.model.Weather;
 
 public abstract class NewRoadEventBuilder extends Builder<Event> {
 
+	int time;
+	String id;
+	String srcJunc;
+	String destJunc;
+	int length;
+	int co2Limit;
+	int maxSpeed;
+	Weather weather;
+	
 	public NewRoadEventBuilder(String type) {
 		super(type);
 		// TODO Auto-generated constructor stub
@@ -16,16 +25,16 @@ public abstract class NewRoadEventBuilder extends Builder<Event> {
 	@Override
 	protected Event createTheInstance(JSONObject data) {
 		// TODO Auto-generated method stub
-		int time = data.getInt("time");
-		String id = data.getString("id");
-		String srcJunc = data.getString("src");
-		String destJunc = data.getString("destJunc");
-		int length = data.getInt("length");
-		int co2Limit = data.getInt("co2Limit");
-		int maxSpeed = data.getInt("maxspeed");
-		Weather weather = Weather.valueOf(data.getString("weather"));
+		time = data.getInt("time");
+		id = data.getString("id");
+		srcJunc = data.getString("src");
+		destJunc = data.getString("destJunc");
+		length = data.getInt("length");
+		co2Limit = data.getInt("co2Limit");
+		maxSpeed = data.getInt("maxspeed");
+		weather = Weather.valueOf(data.getString("weather").toUpperCase());
 		
-		return new NewRoadEvent(time, id, srcJunc, destJunc, length, co2Limit, maxSpeed, weather);
+		return createTheRoad();
 	}
 	
 	abstract Event createTheRoad();

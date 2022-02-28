@@ -89,7 +89,7 @@ public class RoadMap {
 		return Collections.unmodifiableList(vehicles);
 	}
 	
-	public Junction getJunction(String id){
+	public Junction getJunction(String id) {
 		
 		if (mapStringJunction.containsKey(id)) {
 			return mapStringJunction.get(id);
@@ -98,6 +98,7 @@ public class RoadMap {
 			return null;
 		}
 	}
+
 	
 	public Road getRoad(String id){
 		if (mapStringRoad.containsKey(id)) {
@@ -136,4 +137,6 @@ public class RoadMap {
 		jo.put("vehicles", vehicleArray);
 		return jo;
 	}
+
+	
 }

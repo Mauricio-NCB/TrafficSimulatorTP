@@ -2,13 +2,13 @@ package simulator.model;
 
 public abstract class NewRoadEvent extends Event {
 
-	private String id;
-	private String srcJunc;
-	private String destJunc;
-	private int length;
-	private int co2Limit;
-	private int maxSpeed;
-	private Weather weather;
+	String id;
+	String srcJunc;
+	String destJunc;
+	int length;
+	int co2Limit;
+	int maxSpeed;
+	Weather weather;
 	
 	public NewRoadEvent(int time, String id, String srcJunc, String destJunc, int length, int co2Limit, int maxSpeed, Weather weather) {
 		super(time);
@@ -25,10 +25,8 @@ public abstract class NewRoadEvent extends Event {
 	@Override
 	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
-		Road r = createRoadObject();
-		//Road r = new InterCityRoad(id, map.getJunction(srcJunc), map.getJunction(destJunc), maxSpeed, co2Limit, length, weather);
-		map.addRoad(r);
+		map.addRoad(createRoadObject(map));
 	}
 
-	abstract Road createRoadObject();
+	abstract Road createRoadObject(RoadMap map);
 }

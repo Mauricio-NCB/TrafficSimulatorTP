@@ -3,6 +3,8 @@ package simulator.factories;
 import org.json.JSONObject;
 
 import simulator.model.Event;
+import simulator.model.NewCityRoadEvent;
+import simulator.model.NewInterCityRoadEvent;
 
 public class NewCityRoadEventBuilder extends NewRoadEventBuilder {
 
@@ -14,7 +16,6 @@ public class NewCityRoadEventBuilder extends NewRoadEventBuilder {
 	@Override
 	Event createTheRoad() {
 		// TODO Auto-generated method stub
-		return null;
+		return new NewCityRoadEvent(time, id, srcJunc, destJunc, length, co2Limit, maxSpeed, weather);
 	}
-
 }
