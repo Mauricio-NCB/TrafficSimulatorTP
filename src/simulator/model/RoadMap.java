@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+
 import org.json.JSONObject;
 
 public class RoadMap {
@@ -26,16 +27,49 @@ public class RoadMap {
 	}
 	
 	public void addJunction(Junction j){
-		
+		try{
+			if(mapStringJunction.containsKey(j.getId())){
+				throw new Exception("Existe cruce con mismo identificador.");
+			}
+			junctions.add(j);
+			mapStringJunction.put(j._id, j);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	public void addRoad(Road r){
-		
+		try{
+			if((mapStringRoad.containsKey(r.getId()))||(!mapStringJunction.containsValue(r.getSrc())&&(!mapStringJunction.containsValue(r.getDest())))){
+				throw new Exception("Fallo al añadir carretera.");
+			}
+			roads.add(r);
+			mapStringRoad.put(r._id, r);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	public void addVehicle(Vehicle v){
-		
+		try{
+			if(mapStringVehicle.containsKey(v.getId())){   ////TODO ITERATOR
+				throw new Exception("Fallo al añadir vehiculo.");
+			}
+			vehicles.add(v);
+			mapStringVehicle.put(v._id, v);
+			
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	public void reset(){
-		
+		junctions.clear();
+		roads.clear();
+		vehicles.clear();
+		mapStringJunction.clear();
+		mapStringRoad.clear();
+		mapStringVehicle.clear();
 	}
 	
 	public List<Junction> getJunctions(){
@@ -78,7 +112,10 @@ public class RoadMap {
 	}
 	
 	public JSONObject report() {
-		
-		return null;
+		JSONObject jo = new JSONObject();
+		jo.put("junctions", junctions);
+		jo.put("road", roads);
+		jo.put("vehicles", vehicles);
+		return jo;
 	}
 }
