@@ -8,7 +8,7 @@ public class SetContClassEvent extends Event {
 
 	private List<Pair<String, Integer>> cs;
 	
-	SetContClassEvent(int time, List<Pair<String, Integer>> cs) {
+	public SetContClassEvent(int time, List<Pair<String, Integer>> cs) {
 		super(time);
 		// TODO Auto-generated constructor stub
 		try {
