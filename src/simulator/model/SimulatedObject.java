@@ -7,7 +7,11 @@ public abstract class SimulatedObject {
 	protected String _id;
 
 	SimulatedObject(String id) {
-		_id = id;
+		if (id == null || id.length() == 0){
+			throw new IllegalArgumentException("the id must be a nonempty string");
+		}
+		else
+			_id = id;
 	}
 
 	public String getId() {

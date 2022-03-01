@@ -52,7 +52,7 @@ public class Vehicle extends SimulatedObject {
 			itinerary.get(0).inRoadsList.get(0);
 		}
 		else if (this.status == VehicleStatus.WAITING) {
-			
+			//TODO 
 		}
 		// Metodo de junction para encontrar la siguiente carretera 
 	}
