@@ -1,6 +1,9 @@
 package simulator.launcher;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -9,15 +12,19 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import simulator.factories.Factory;
-import simulator.model.Event;
+import simulator.control.Controller;
+import simulator.factories.*;
+import simulator.model.*;
 
 public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
+	private static Integer _ticks;
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
+	private static Factory<LightSwitchingStrategy> _lssFactory = null;
+	private static Factory<DequeuingStrategy> _dqsFactory = null;
 
 	private static void parseArgs(String[] args) {
 
@@ -33,6 +40,7 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
+			parseTicksOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -59,6 +67,8 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
+		cmdLineOptions.addOption(
+				Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator`s main loop (default value is 10).").build());
 
 		return cmdLineOptions;
 	}
@@ -82,14 +92,57 @@ public class Main {
 		_outFile = line.getOptionValue("o");
 	}
 
-	private static void initFactories() {
+	private static void parseTicksOption(CommandLine line) throws ParseException {
+		if (line.hasOption("t")) {
+			_ticks = Integer.parseInt(line.getOptionValue("t")); 
+		}
+		else {
+			_ticks = _timeLimitDefaultValue;
+		}
+	}
+		private static void initFactories() {
 
 		// TODO complete this method to initialize _eventsFactory
-
+		List<Builder<LightSwitchingStrategy>> lssBuilders = new ArrayList<>();
+		lssBuilders.add(new RoundRobinStrategyBuilder());
+		lssBuilders.add(new MostCrowdedStrategyBuilder());
+		_lssFactory = new BuilderBasedFactory<>(lssBuilders);
+		
+		List<Builder<DequeuingStrategy>> dqsBuilders = new ArrayList<>();
+		dqsBuilders.add(new MoveFirstStrategyBuilder());
+		dqsBuilders.add(new MoveAllStrategyBuilder());
+		_dqsFactory = new BuilderBasedFactory<>(dqsBuilders);
+		
+		List<Builder<Event>> eventsBuilders = new ArrayList<>();
+		eventsBuilders.add(new NewJunctionEventBuilder(_lssFactory, _dqsFactory));
+		eventsBuilders.add(new NewCityRoadEventBuilder());
+		eventsBuilders.add(new NewInterCityRoadEventBuilder());
+		eventsBuilders.add(new NewVehicleEventBuilder());
+		eventsBuilders.add(new SetWeatherEventBuilder());
+		eventsBuilders.add(new SetContClassEventBuilder());
+		_eventsFactory = new BuilderBasedFactory<>(eventsBuilders);
+		
 	}
 
 	private static void startBatchMode() throws IOException {
 		// TODO complete this method to start the simulation
+		InputStream in = new FileInputStream(new File(_inFile));
+		OutputStream out;
+		TrafficSimulator sim = new TrafficSimulator();
+		Controller controller = new Controller(sim, _eventsFactory);
+		
+		
+		if (_outFile == null) {
+			out = System.out;
+		}
+		else {
+			out = new FileOutputStream(new File(_outFile));
+		}
+		
+		controller.loadEvents(in);
+		controller.run(_ticks, out);
+		in.close();
+		out.close();
 	}
 
 	private static void start(String[] args) throws IOException {
