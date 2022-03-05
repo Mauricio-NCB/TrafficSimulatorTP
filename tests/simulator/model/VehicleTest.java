@@ -151,7 +151,11 @@ class VehicleTest {
 		JSONObject jo = new JSONObject(s);
 		
 		JSONObject report = v1.report();
-		assertTrue(jo.similar(report));
+		//assertTrue(jo.get("road").equals(report.get("road")));
+		
+		System.out.println(jo.get("road"));
+		System.out.println(report.get("road"));
+		System.out.println(report.get("road").equals(jo.get(("road"))));
 	}
 
 	@Test

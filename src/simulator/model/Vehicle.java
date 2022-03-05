@@ -105,15 +105,16 @@ public class Vehicle extends SimulatedObject {
 	public JSONObject report() {
 		// TODO Auto-generated method stub
 		JSONObject jo = new JSONObject();
+		
 		jo.put("id", super.getId());
 		jo.put("speed", this.speed);
 		jo.put("distance", this.distance);
 		jo.put("co2", this.totalCO2);
 		jo.put("class", this.contClass);
-		jo.put("status", this.status);
+		jo.put("status", this.status.name());
 		
 		if (status != VehicleStatus.PENDING && status != VehicleStatus.ARRIVED) {
-			jo.put("road", this.road);
+			jo.put("road", road);
 			jo.put("location", this.location);
 		}
 		
