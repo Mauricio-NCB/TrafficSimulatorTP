@@ -57,9 +57,9 @@ public class RoadMap {
 			throw new IllegalArgumentException("Id has already be taken by other vehicle");
 		}
 			
-		for (int i = 0; i < v.getItinerary().size() - 1; i++) {
-			if (v.getItinerary().get(i).roadTo(v.getItinerary().get(i + 1)) == null) {
-				throw new IllegalArgumentException("A junction defined by itinerary is not connected by a road");
+		for (Junction j: v.getItinerary()) {
+			if (!mapStringJunction.containsValue(j)) {
+				throw new IllegalArgumentException("Certain junction from itinerary is not in the RoadMap");
 			}
 		}
 
@@ -137,7 +137,7 @@ public class RoadMap {
 		JSONObject jo = new JSONObject();
 		
 		jo.put("junctions", junctionArray);
-		jo.put("roads", roadArray);
+		jo.put("road", roadArray);
 		jo.put("vehicles", vehicleArray);
 		
 		return jo;
