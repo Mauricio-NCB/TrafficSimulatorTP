@@ -28,9 +28,9 @@ public abstract class NewRoadEventBuilder extends Builder<Event> {
 		time = data.getInt("time");
 		id = data.getString("id");
 		srcJunc = data.getString("src");
-		destJunc = data.getString("destJunc");
+		destJunc = data.getString("dest");
 		length = data.getInt("length");
-		co2Limit = data.getInt("co2Limit");
+		co2Limit = data.getInt("co2limit");
 		maxSpeed = data.getInt("maxspeed");
 		weather = Weather.valueOf(data.getString("weather").toUpperCase());
 		
