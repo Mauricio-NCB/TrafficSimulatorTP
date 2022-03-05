@@ -27,14 +27,12 @@ public class Junction extends SimulatedObject {
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
 		// TODO Auto-generated constructor stub
-		try {
-			if (xCoor < 0 || yCoor < 0 || lsStrategy == null || dqStrategy == null) {
-				throw new Exception("Datos incorrectos");
+			if (lsStrategy == null) {
+				throw new IllegalArgumentException("LightSwitchingStrategy cannot be null");
 			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
+			if (xCoor < 0 || yCoor < 0 || dqStrategy == null) {
+				throw new IllegalArgumentException("Datos incorrectos");
+			}
 		
 		this.lsStrategy = lsStrategy;
 		this.dqStrategy = dqStrategy;
