@@ -13,7 +13,7 @@ import simulator.model.SetContClassEvent;
 public class SetContClassEventBuilder extends Builder<Event> {
 
 	public SetContClassEventBuilder() {
-		super("set_weather");
+		super("set_cont_class");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,7 +23,7 @@ public class SetContClassEventBuilder extends Builder<Event> {
 		int time = data.getInt("time");
 		
 		List<Pair<String, Integer>> pair_vc = new ArrayList<Pair<String, Integer>>();
-		JSONArray jsonInfo = new JSONArray(data.has("info"));
+		JSONArray jsonInfo = data.getJSONArray("info");
 		
 		for (int i = 0; i < jsonInfo.length(); i++) {
 			String vehicleId = jsonInfo.getJSONObject(i).getString("vehicle");

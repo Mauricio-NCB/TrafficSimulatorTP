@@ -14,7 +14,7 @@ import simulator.model.Weather;
 public class SetWeatherEventBuilder extends Builder<Event>{
 
 	public SetWeatherEventBuilder() {
-		super("set_cont_class");
+		super("set_weather");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -24,7 +24,7 @@ public class SetWeatherEventBuilder extends Builder<Event>{
 		int time = data.getInt("time");
 		
 		List<Pair<String, Weather>> pair_rw = new ArrayList<Pair<String, Weather>>();
-		JSONArray jsonInfo = new JSONArray(data.has("info"));
+		JSONArray jsonInfo = data.getJSONArray("info");
 		
 		for (int i = 0; i < jsonInfo.length(); i++) {
 			String roadId = jsonInfo.getJSONObject(i).getString("road");
