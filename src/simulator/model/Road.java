@@ -35,7 +35,7 @@ public abstract class Road extends SimulatedObject{
 		this.srcJunc = srcJunc;
 		this.destJunc = destJunc;
 		this.maxSpeed = maxSpeed;
-		currentSpeedLimit = 0;
+		currentSpeedLimit = maxSpeed;
 		this.contLimit = contLimit;
 		this.weather = weather;
 		totalCont = 0;
@@ -72,8 +72,8 @@ public abstract class Road extends SimulatedObject{
 		JSONObject jo = new JSONObject();
 		
 		jo.put("id", super.getId());
-		jo.put("speedlimit", this.currentSpeedLimit);
-		jo.put("weather", this.weather);
+		jo.put("speedlimit", this.getSpeedLimit());
+		jo.put("weather", this.weather.name());
 		jo.put("co2", this.totalCont);
 		
 		JSONArray jVehicles = new JSONArray();
