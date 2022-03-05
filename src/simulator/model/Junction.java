@@ -85,14 +85,19 @@ public class Junction extends SimulatedObject {
 	@Override
 	void advance(int time) {
 		// TODO Auto-generated method stub
-		if (indexGreenLight != 1 && qsList.size() > 0) {
+		if (indexGreenLight != -1 && !qsList.isEmpty()) {
 		
-			List<Vehicle> dequeued = dqStrategy.dequeue(qsList.get(indexGreenLight));
-		
-			for (Vehicle v: dequeued) {
-				v.moveToNextRoad();
-				qsList.get(indexGreenLight).remove(v);
+			List<Vehicle> q = qsList.get(indexGreenLight);
+	
+			if (q.size() > 0) {
+				List<Vehicle> dequeued = dqStrategy.dequeue(q);
+				
+				for (Vehicle v: dequeued) {
+					v.moveToNextRoad();
+					qsList.get(indexGreenLight).remove(v);
+				}
 			}
+			
 		}
 		
 		int nextGreen = lsStrategy.chooseNextGreen(inRoadsList, qsList, indexGreenLight, lastLightStep, time);

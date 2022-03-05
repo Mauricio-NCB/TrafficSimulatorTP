@@ -16,7 +16,7 @@ public class TrafficSimulator {
 		eventsList = new SortedArrayList<Event>();
 		time = 0;
 	}
-	
+
 	public void addEvent(Event e) {
 		eventsList.add(e);
 	}
