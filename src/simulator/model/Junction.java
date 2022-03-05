@@ -14,12 +14,15 @@ public class Junction extends SimulatedObject {
 	protected List<Road> inRoadsList;
 	private Map<Junction, Road> outRoadsMap;
 	private List<List<Vehicle>> qsList;
+	private Map<Road, List<Vehicle>> rqMap;
 	private int indexGreenLight;
 	private int lastLightStep;
 	private LightSwitchingStrategy lsStrategy;
 	private DequeuingStrategy dqStrategy;
 	private int xCoor;
 	private int yCoor;
+	
+	// protected
 	
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
@@ -38,62 +41,74 @@ public class Junction extends SimulatedObject {
 		this.xCoor = xCoor;
 		this.yCoor = yCoor;
 		
-		inRoadsList = new ArrayList<Road>();
-		outRoadsMap = new HashMap<Junction, Road>();
-		qsList = new ArrayList<List<Vehicle>>();
+		inRoadsList = new ArrayList<>();
+		outRoadsMap = new HashMap<>();
+		qsList = new ArrayList<>();
+		rqMap = new HashMap<>();
+		indexGreenLight = -1;
+		lastLightStep = 0;
 	}
 
 	void addIncommingRoad(Road r) {
+		
+		try {
+			if (!r.getDest().equals(this)) {
+				throw new Exception("This is not an incomming road");
+			}
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
 		inRoadsList.add(r);  
 		
 		List<Vehicle> q = new LinkedList<Vehicle>();
 		qsList.add(q);
-		//Exception
+		rqMap.put(r, q);
 		
 	}
 	
 	void addOutGoingRoad(Road r) {
-		outRoadsMap.put(r.getDest(), r);
-		//Exception si sale mal la verificiación
+		Junction j = r.getDest();
+		
+		try {
+			if (outRoadsMap.containsKey(j) || !r.getSrc().equals(this)) {
+				throw new Exception ("There´s another road going to junction or road is not an outgoing road");
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		outRoadsMap.put(j, r);
 	}
 	
 	void enter(Vehicle v) {
-		int i = 0;
-		boolean found = false;
+		Road r = v.getRoad();
 		
-		while (i < inRoadsList.size() && !found) {
-			if (inRoadsList.get(i).getId() == v.getRoad().getId()) { 
-				found = true;	//Busca en que indice de nuestra lista de carreteras entrantes está la carretera de v 
-			}
-			else {
-				i++;
-			}
-		}
-		
-		qsList.get(i).add(v);	// En el i-esimo puesto de la carretera entrante está la cola que queremos añadir
+		rqMap.get(r).add(v);
 	}
 	
 	Road roadTo(Junction j) {
-		if (outRoadsMap.containsKey(j)) {
-			return outRoadsMap.get(j);
-		}
-		else {
-			return null;
-		}
+		
+		return outRoadsMap.get(j);
 	}
 	
 	@Override
 	void advance(int time) {
 		// TODO Auto-generated method stub
-		List<Vehicle> dequeued = dqStrategy.dequeue(qsList.get(indexGreenLight));
+		if (indexGreenLight != 1 && qsList.size() > 0) {
 		
-		for (Vehicle v: dequeued) {
-			v.moveToNextRoad();
-			qsList.get(indexGreenLight).remove(v);
+			List<Vehicle> dequeued = dqStrategy.dequeue(qsList.get(indexGreenLight));
+		
+			for (Vehicle v: dequeued) {
+				v.moveToNextRoad();
+				qsList.get(indexGreenLight).remove(v);
+			}
 		}
 		
-		int nextGreen;
-		nextGreen = lsStrategy.chooseNextGreen(inRoadsList, qsList, indexGreenLight, lastLightStep, time);
+		int nextGreen = lsStrategy.chooseNextGreen(inRoadsList, qsList, indexGreenLight, lastLightStep, time);
+		
 		if (nextGreen != indexGreenLight) {
 			indexGreenLight = nextGreen;
 			lastLightStep = time;
@@ -107,16 +122,32 @@ public class Junction extends SimulatedObject {
 		
 		JSONObject jo = new JSONObject();
 		jo.put("id", super.getId());
+		
 		if (indexGreenLight == -1) {
 			jo.put("green", "none");
 		}
 		else {
-			jo.put("green", indexGreenLight); // none si todos están en rojo
+			jo.put("green", inRoadsList.get(indexGreenLight).getId()); 
 		}
-		JSONArray j_queues = new JSONArray();
-		jo.put("queues", j_queues); // lista de colas de carreteras entrantes
-		jo.put("road", 0); // identificador de las carreteras
-		jo.put("vehicles", 0); // lista de vehiculos en el orden que aparecen en la cola
+		
+		JSONArray JSONqueues = new JSONArray();
+		
+		for (Road r: inRoadsList) {
+			
+			JSONArray jVehicles = new JSONArray();
+			for (Vehicle v: rqMap.get(r)) {
+				jVehicles.put(v.getId());
+			}
+			
+			JSONObject jQueue = new JSONObject();
+			
+			jQueue.put("road", r.getId());
+			jQueue.put("vehicles", jVehicles);
+			
+			JSONqueues.put(jQueue);
+		}
+		
+		jo.put("queues", JSONqueues);
 		
 		return jo;
 	}

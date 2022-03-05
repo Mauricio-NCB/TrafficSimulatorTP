@@ -1,11 +1,15 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
 
 public class Vehicle extends SimulatedObject {
 
+	//private or protected
+	
 	private int distance;
 	private int location;
 	private int speed;
@@ -15,8 +19,11 @@ public class Vehicle extends SimulatedObject {
 	private VehicleStatus status;
 	private int totalCO2;
 	private Road road;
+	private int currentJunc;
 	
-	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
+	//protected class
+	
+	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {		
 		super(id);
 		
 		try {
@@ -28,50 +35,79 @@ public class Vehicle extends SimulatedObject {
 			System.out.println(e.getMessage());
 		}
 		
+		distance = 0;
+		location = 0;
+		speed = 0;
 		this.maxSpeed = maxSpeed;
 		this.contClass = contClass;
-		this.itinerary = itinerary;
+		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		this.status = VehicleStatus.PENDING;
+		road = null;
+		currentJunc = 0;
+		
+		
 	}
 
+	//protected methods
+	
 	void moveToNextRoad() {
 		try {
 			if (this.status == VehicleStatus.ARRIVED || this.status == VehicleStatus.TRAVELING) {
-				throw new Exception("El estado del vehiculo no permite el cambio a otra carretera");
+				throw new Exception("The vehicle status does not let move to next road");
 			}
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 		
-		speed = 0;
-		location = 0;
-		road.exit(this);
+		if (road != null) {
+			speed = 0;
+			location = 0;
+			road.exit(this);
+		}
 		
-		if (this.status == VehicleStatus.PENDING) {
-			itinerary.get(0).inRoadsList.get(0);
+		if (currentJunc < itinerary.size() - 1) {
+			status = VehicleStatus.TRAVELING;
+			
+			Junction srcJunc = itinerary.get(currentJunc);
+			Junction destJunc = itinerary.get(currentJunc + 1);
+			
+			road = srcJunc.roadTo(destJunc);
+			road.enter(this);
 		}
-		else if (this.status == VehicleStatus.WAITING) {
-			//TODO 
+		else {
+			status = VehicleStatus.ARRIVED;
+			road = null;
 		}
-		// Metodo de junction para encontrar la siguiente carretera 
 	}
 	
 	@Override
 	void advance(int time) {
 		// TODO Auto-generated method stub
-		if (this.status == VehicleStatus.TRAVELING) {
-			int prevLocation = location;
-			location += speed;
-			
-			int contProduced = contClass * (location - prevLocation);
-			totalCO2 += contProduced;
-			road.addContamination(contProduced);
-			
-			if (location >= road.getLength()) {
-				road.getDest().enter(this);
-			}
+		if (this.status != VehicleStatus.TRAVELING) {
+			speed = 0;
+			return;
 		}
+		
+		int prevLocation = location;
+		location += speed;
+		
+		if (location > road.getLength()) {
+			location = road.getLength();
+		}
+		distance += (location - prevLocation);
+		
+		int contProduced = contClass * (location - prevLocation);
+		totalCO2 += contProduced;
+		road.addContamination(contProduced);
+		
+		if (location >= road.getLength()) {
+			status = VehicleStatus.WAITING;
+			speed = 0;
+			currentJunc++;
+			road.getDest().enter(this);
+		}
+
 	}
 
 	@Override
@@ -84,8 +120,11 @@ public class Vehicle extends SimulatedObject {
 		jo.put("co2", this.totalCO2);
 		jo.put("class", this.contClass);
 		jo.put("status", this.status);
-		jo.put("road", this.road);
-		jo.put("location", this.location);
+		
+		if (status != VehicleStatus.PENDING && status != VehicleStatus.ARRIVED) {
+			jo.put("road", this.road);
+			jo.put("location", this.location);
+		}
 		
 		return jo;
 	}
