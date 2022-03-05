@@ -48,15 +48,19 @@ public class Controller {
 	
 	public void run(int n, OutputStream out) {
 		PrintStream p = new PrintStream(out);
-		JSONObject jo = new JSONObject();
-		JSONArray jArray = new JSONArray();
 		
-		for (int i = 0; i < n; i++) {
+		p.println("{");
+		p.println("  " + "\"states\": [");
+		
+		for (int i = 0; i < n - 1; i++) {
 			sim.advance();
-			jArray.put(sim.report());
+			p.println(sim.report().toString() + ",");
 		}
 		
-		jo.put("states", jArray);
-		p.println(jo.toString());
+		sim.advance();
+		p.println(sim.report().toString() + "");
+		p.println("]");
+		p.println("}");
+
 	}
 }

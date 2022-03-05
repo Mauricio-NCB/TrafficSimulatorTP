@@ -25,8 +25,9 @@ public class SetContClassEvent extends Event {
 			if (map.getVehicle(c.getFirst()) == null) {
 				throw new IllegalArgumentException ("Certain vehicle does not exist in the list");
 			}
-			
+			else {
 				map.getVehicle(c.getFirst()).setContClass(c.getSecond());
+			}
 		}
 	}
 

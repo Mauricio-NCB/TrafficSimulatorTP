@@ -24,8 +24,9 @@ public class TrafficSimulator {
 	public void advance() {
 		time++;
 		
-		while (eventsList.size() > 0 && eventsList.get(0).getTime() == time) {
-			eventsList.remove(0).execute(roadMap);
+		while (!eventsList.isEmpty() && eventsList.get(0).getTime() == time) {
+			eventsList.get(0).execute(roadMap);
+			eventsList.remove(0);
 		}
 		
 		for (Junction j: roadMap.getJunctions()) {
