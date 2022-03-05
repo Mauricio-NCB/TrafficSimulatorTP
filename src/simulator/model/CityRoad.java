@@ -12,10 +12,9 @@ public class CityRoad extends Road{
 	public void reduceTotalContamination() {
 		int x = 2;
 		
-		if (this.getWeather() == Weather.STORM || this.getWeather() == Weather.STORM) {
+		if (this.getWeather() == Weather.STORM || this.getWeather() == Weather.WINDY) {
 			x = 10;
 		}
-		
 		
 		if (this.getTotalCO2() - x < 0) {
 			this.totalCont = 0; 

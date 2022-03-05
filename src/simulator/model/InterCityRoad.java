@@ -33,14 +33,14 @@ public class InterCityRoad extends Road {
 			x = 0;
 		}
 		
-		super.totalCont = (int)(((100.0 - x) / 100.0) * super.totalCont);
+		super.totalCont = (int)(((100.0 - x) / 100.0) * this.getTotalCO2());
 	}
 
 	@Override
 	public void updateSpeedLimit() {
 		if(this.getTotalCO2() > this.getContLimit()){
 			
-			currentSpeedLimit = (int)(this.getMaxSpeed() * 0.5);
+			currentSpeedLimit = ((int)(this.getMaxSpeed() * 0.5));
 		}
 		else{
 			
@@ -53,7 +53,7 @@ public class InterCityRoad extends Road {
 	public int calculateVehicleSpeed(Vehicle v) {
 		if(this.getWeather() == Weather.STORM){
 			
-			return (int) (getSpeedLimit() * 0.8);
+			return ((int)(getSpeedLimit() * 0.8));
 		}
 		else{
 			
