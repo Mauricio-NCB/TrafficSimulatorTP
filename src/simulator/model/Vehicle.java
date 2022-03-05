@@ -26,9 +26,9 @@ public class Vehicle extends SimulatedObject {
 	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {		
 		super(id);
 		
-		if (maxSpeed < 0 || contClass < 0 || contClass > 10 || itinerary.size() < 2) {
-			throw new IllegalArgumentException("Vehicle data is not valid");
-		}
+		if (maxSpeed <= 0) throw new IllegalArgumentException("Vehicle max speed must be bigger than zero");
+		if (contClass < 0 || contClass > 10) throw new IllegalArgumentException("Contamination class must be between 0 and 10 (both inclusive)");
+		if (itinerary.size() < 2) throw new IllegalArgumentException("Itinerary must be initialized by at least two junctions");
 		
 		distance = 0;
 		location = 0;
@@ -157,7 +157,16 @@ public class Vehicle extends SimulatedObject {
 			throw new IllegalArgumentException("Speed must be equal or bigger than zero");
 		}
 
-		speed = s;
+		if (getStatus() != VehicleStatus.TRAVELING) {
+			return;
+		}
+		
+		if (s > getMaxSpeed()) {
+			speed = getMaxSpeed();
+		}
+		else {
+			speed = s;
+		}
 	}
 	
 	void setContClass(int c) {

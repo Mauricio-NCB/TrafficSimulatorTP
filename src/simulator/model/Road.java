@@ -24,9 +24,12 @@ public abstract class Road extends SimulatedObject{
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather){
 		super(id);
 		
-		if(maxSpeed <= 0 || contLimit < 0 || length <= 0 || srcJunc == null || destJunc == null || weather == null){
-			throw new IllegalArgumentException("Road data is not valid");
-		}
+		if(maxSpeed <= 0) throw new IllegalArgumentException("Max speed limit must be bigger than zero");
+		if (contLimit < 0) throw new IllegalArgumentException("Contamination limit must be equal or bigger than zero");
+		if (length <= 0) throw new IllegalArgumentException("Road´s length must be bigger than zero");
+		if (srcJunc == null) throw new IllegalArgumentException("Source junction cannot be null");
+		if (destJunc == null) throw new IllegalArgumentException("Destination junction cannot be null"); 
+		if (weather == null) throw new IllegalArgumentException("Weather cannot be null");	
 		
 		this.length = length;
 		this.srcJunc = srcJunc;
