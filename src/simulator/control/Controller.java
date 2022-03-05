@@ -18,13 +18,9 @@ public class Controller {
 	private Factory<Event> eventsFactory;
 	
 	public Controller(TrafficSimulator sim, Factory<Event> eventsFactory) {
-		try {
-			if (sim == null || eventsFactory == null) {
-				throw new Exception ("Simulator and events from factory cannot be null");
-			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		
+		if (sim == null || eventsFactory == null) {
+			throw new IllegalArgumentException ("Simulator and events from factory cannot be null");
 		}
 		
 		this.sim = sim;
@@ -38,13 +34,8 @@ public class Controller {
 	public void loadEvents(InputStream in) {
 		JSONObject jo = new JSONObject(new JSONTokener(in));
 		
-		try {
-			if (!jo.has("events")) {
-				throw new Exception("Error, JSON format must be like \"events\": [e_1, . . ., e_n]");
-			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		if (!jo.has("events")) {
+			throw new IllegalArgumentException("Error, JSON format must be like \"events\": [e_1, . . ., e_n]");
 		}
 		
 		JSONArray jArrayEvents = new JSONArray(jo.getString("events"));

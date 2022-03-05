@@ -24,13 +24,8 @@ public abstract class Road extends SimulatedObject{
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather){
 		super(id);
 		
-		try {
-			if(maxSpeed <= 0 || contLimit < 0 || length <= 0 || srcJunc == null || destJunc == null || weather == null){
-				throw new Exception("Road data is not valid");
-			}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+		if(maxSpeed <= 0 || contLimit < 0 || length <= 0 || srcJunc == null || destJunc == null || weather == null){
+			throw new IllegalArgumentException("Road data is not valid");
 		}
 		
 		this.length = length;
@@ -91,13 +86,9 @@ public abstract class Road extends SimulatedObject{
 	
 
 	public void enter(Vehicle v){
-		try{
-			if(v.getLocation() != 0 || v.getSpeed() != 0){
-				throw new Exception("Error al meter carretera");
-			}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+
+		if(v.getLocation() != 0 || v.getSpeed() != 0){
+			throw new IllegalArgumentException("Error al meter carretera");
 		}
 		
 		vehicles.add(v);
@@ -109,26 +100,18 @@ public abstract class Road extends SimulatedObject{
 	}
 
 	public void setWeather(Weather weather) {
-		try{
-			if(weather == null){
-				throw new Exception("Weather cannot be null");
-			}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+
+		if(weather == null){
+			throw new IllegalArgumentException("Weather cannot be null");
 		}
 		
 		this.weather = weather;
 	}
 	
 	public void addContamination(int c){
-		try{
-			if(c < 0){
-				throw new Exception("Contamination must be equal or bigger than zero");
-			}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+
+		if(c < 0){
+			throw new IllegalArgumentException("Contamination must be equal or bigger than zero");
 		}
 		
 		this.totalCont += c;

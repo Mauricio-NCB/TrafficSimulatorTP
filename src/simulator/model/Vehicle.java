@@ -26,13 +26,8 @@ public class Vehicle extends SimulatedObject {
 	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {		
 		super(id);
 		
-		try {
-			if (maxSpeed < 0 || contClass < 0 || contClass > 10 || itinerary.size() < 2) {
-				throw new Exception("Datos del vehiculo son invalidos");
-			}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+		if (maxSpeed < 0 || contClass < 0 || contClass > 10 || itinerary.size() < 2) {
+			throw new IllegalArgumentException("Vehicle data is not valid");
 		}
 		
 		distance = 0;
@@ -51,13 +46,9 @@ public class Vehicle extends SimulatedObject {
 	//protected methods
 	
 	void moveToNextRoad() {
-		try {
-			if (this.status == VehicleStatus.ARRIVED || this.status == VehicleStatus.TRAVELING) {
-				throw new Exception("The vehicle status does not let move to next road");
-			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		
+		if (this.status == VehicleStatus.ARRIVED || this.status == VehicleStatus.TRAVELING) {
+			throw new IllegalArgumentException("The vehicle status does not let move to next road");
 		}
 		
 		if (road != null) {
@@ -162,26 +153,18 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	void setSpeed(int s) {
-		try {
-			if (s < 0) {
-				throw new Exception("Speed must be negative");
-			}
+		if (s < 0) {
+			throw new IllegalArgumentException("Speed must be equal or bigger than zero");
 		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
+
 		speed = s;
 	}
 	
 	void setContClass(int c) {
-		try {
-			if (c > 10 || c < 0) {
-				throw new Exception("Contamination class must be beetween 0 and 10 (both inclusive)");
-			}
+		if (c > 10 || c < 0) {
+			throw new IllegalArgumentException("Contamination class must be beetween 0 and 10 (both inclusive)");
 		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
+
 		contClass = c;
 	}
 }

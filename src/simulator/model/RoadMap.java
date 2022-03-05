@@ -28,13 +28,9 @@ public class RoadMap {
 	}
 	
 	void addJunction(Junction j){
-		try{
-			if(mapStringJunction.containsKey(j.getId())){
-				throw new Exception("Id has been taken by another junction");
-			}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+		
+		if(mapStringJunction.containsKey(j.getId())){
+			throw new IllegalArgumentException("Id has been taken by another junction");
 		}
 		
 		junctions.add(j);
@@ -42,16 +38,13 @@ public class RoadMap {
 	}
 	
 	void addRoad(Road r){
-		try{
-			if(mapStringRoad.containsKey(r.getId())){
-				throw new Exception("Road is already on the map");
-			}
-			if(!mapStringJunction.containsValue(r.getSrc()) || !mapStringJunction.containsValue(r.getDest())) {
-				throw new Exception("Junctions connected by r are not on the map");
-			}
+		
+		if(mapStringRoad.containsKey(r.getId())){
+			throw new IllegalArgumentException("Road is already on the map");
 		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
+		
+		if(!mapStringJunction.containsValue(r.getSrc()) || !mapStringJunction.containsValue(r.getDest())) {
+			throw new IllegalArgumentException("Junctions connected by r are not on the map");
 		}
 		
 		roads.add(r);
@@ -59,20 +52,17 @@ public class RoadMap {
 	}
 	
 	void addVehicle(Vehicle v){
-		try{
-			if(mapStringVehicle.containsKey(v.getId())){   
-				throw new Exception("Id has already be taken by other vehicle");
-			}
+
+		if(mapStringVehicle.containsKey(v.getId())){   
+			throw new IllegalArgumentException("Id has already be taken by other vehicle");
+		}
 			
-			for (Junction j: v.getItinerary()) {
-				if (!mapStringJunction.containsValue(j)) {
-					throw new Exception("Certain junction from itinerary is not in the RoadMap");
-				}
+		for (Junction j: v.getItinerary()) {
+			if (!mapStringJunction.containsValue(j)) {
+				throw new IllegalArgumentException("Certain junction from itinerary is not in the RoadMap");
 			}
 		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+
 		
 		vehicles.add(v);
 		mapStringVehicle.put(v.getId(), v);

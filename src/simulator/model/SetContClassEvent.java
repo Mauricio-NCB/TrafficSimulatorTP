@@ -11,13 +11,8 @@ public class SetContClassEvent extends Event {
 	public SetContClassEvent(int time, List<Pair<String, Integer>> cs) {
 		super(time);
 		// TODO Auto-generated constructor stub
-		try {
-			if (cs == null) {
-				throw new Exception ("Pair contclass-string cannot be null");
-			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		if (cs == null) {
+			throw new IllegalArgumentException ("Pair contclass-string cannot be null");
 		}
 		
 		this.cs = cs;
@@ -26,16 +21,12 @@ public class SetContClassEvent extends Event {
 	@Override
 	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
-		try {
-			for (Pair<String, Integer> c: cs) {
-				if (map.getVehicle(c.getFirst()) == null) {
-					throw new Exception ("Certain vehicle does not exist in the list");
-				}
-				map.getVehicle(c.getFirst()).setContClass(c.getSecond());
+		for (Pair<String, Integer> c: cs) {
+			if (map.getVehicle(c.getFirst()) == null) {
+				throw new IllegalArgumentException ("Certain vehicle does not exist in the list");
 			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+			
+				map.getVehicle(c.getFirst()).setContClass(c.getSecond());
 		}
 	}
 

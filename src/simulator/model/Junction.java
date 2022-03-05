@@ -27,12 +27,12 @@ public class Junction extends SimulatedObject {
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
 		// TODO Auto-generated constructor stub
-			if (lsStrategy == null) {
-				throw new IllegalArgumentException("LightSwitchingStrategy cannot be null");
-			}
-			if (xCoor < 0 || yCoor < 0 || dqStrategy == null) {
-				throw new IllegalArgumentException("Datos incorrectos");
-			}
+		if (lsStrategy == null) {
+			throw new IllegalArgumentException("LightSwitchingStrategy cannot be null");
+		}
+		if (xCoor < 0 || yCoor < 0 || dqStrategy == null) {
+			throw new IllegalArgumentException("Datos incorrectos");
+		}
 		
 		this.lsStrategy = lsStrategy;
 		this.dqStrategy = dqStrategy;
@@ -49,13 +49,8 @@ public class Junction extends SimulatedObject {
 
 	void addIncommingRoad(Road r) {
 		
-		try {
-			if (!r.getDest().equals(this)) {
-				throw new Exception("This is not an incomming road");
-			}
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
+		if (!r.getDest().equals(this)) {
+			throw new IllegalArgumentException("This is not an incomming road");
 		}
 		
 		inRoadsList.add(r);  
@@ -69,13 +64,8 @@ public class Junction extends SimulatedObject {
 	void addOutGoingRoad(Road r) {
 		Junction j = r.getDest();
 		
-		try {
-			if (outRoadsMap.containsKey(j) || !r.getSrc().equals(this)) {
-				throw new Exception ("There´s another road going to junction or road is not an outgoing road");
-			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		if (outRoadsMap.containsKey(j) || !r.getSrc().equals(this)) {
+			throw new IllegalArgumentException ("There´s another road going to junction or road is not an outgoing road");
 		}
 		
 		outRoadsMap.put(j, r);

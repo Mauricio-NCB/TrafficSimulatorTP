@@ -11,13 +11,8 @@ public class SetWeatherEvent extends Event {
 	public SetWeatherEvent(int time, List<Pair<String, Weather>> ws) {
 		super(time);
 		// TODO Auto-generated constructor stub
-		try {
-			if (ws == null) {
-				throw new Exception("Pair weather-string cannot be null");
-			}
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		if (ws == null) {
+			throw new IllegalArgumentException("Pair weather-string cannot be null");
 		}
 		
 		this.ws = ws;
@@ -26,18 +21,13 @@ public class SetWeatherEvent extends Event {
 	@Override
 	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
-		try {
-			for (Pair<String, Weather> w: ws) {
-				if (map.getRoad(w.getFirst()) == null) {
-					throw new Exception("Certain road does not exist in the list");
-				}
-				map.getRoad(w.getFirst()).setWeather(w.getSecond());
+		for (Pair<String, Weather> w: ws) {
+			if (map.getRoad(w.getFirst()) == null) {
+				throw new IllegalArgumentException("Certain road does not exist in the list");
 			}
+			
+				map.getRoad(w.getFirst()).setWeather(w.getSecond());
 		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
 	}
 
 }
