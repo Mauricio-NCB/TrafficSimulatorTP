@@ -38,7 +38,7 @@ public class Controller {
 			throw new IllegalArgumentException("Error, JSON format must be like \"events\": [e_1, . . ., e_n]");
 		}
 		
-		JSONArray jArrayEvents = new JSONArray(jo.getString("events"));
+		JSONArray jArrayEvents = jo.getJSONArray("events");
 		
 		for (int i = 0; i < jArrayEvents.length(); i++)  {
 			Event e = eventsFactory.createInstance(jArrayEvents.getJSONObject(i));

@@ -114,7 +114,7 @@ public class Vehicle extends SimulatedObject {
 		jo.put("status", this.status.name());
 		
 		if (status != VehicleStatus.PENDING && status != VehicleStatus.ARRIVED) {
-			jo.put("road", road);
+			jo.put("road", road.getId());
 			jo.put("location", this.location);
 		}
 		
