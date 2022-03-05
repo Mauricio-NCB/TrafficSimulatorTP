@@ -10,26 +10,30 @@ public class CityRoad extends Road{
 
 	@Override
 	public void reduceTotalContamination() {
-		if(this.getTotalCO2()>9&&((this.getWeather()==this.getWeather().STORM)||(this.getWeather()==this.getWeather().WINDY))){
-			super.totalCont-=10;
+		int x = 2;
+		
+		if (this.getWeather() == Weather.STORM || this.getWeather() == Weather.STORM) {
+			x = 10;
 		}
-		else if(this.getTotalCO2()>1&&((this.getWeather()!=this.getWeather().STORM)||(this.getWeather()!=this.getWeather().WINDY))){
-			super.totalCont-=2;
+		
+		
+		if (this.getTotalCO2() - x < 0) {
+			this.totalCont = 0; 
 		}
-		else{
-			super.totalCont=0;
+		else {
+			this.totalCont = this.getTotalCO2() - x;
 		}
 	}
 
 	@Override
 	public void updateSpeedLimit() {
-		super.maxSpeed = super.maxSpeed;
+		this.currentSpeedLimit = this.getMaxSpeed();
 	}
 
 	@Override
 	public int calculateVehicleSpeed(Vehicle v) {
-		v.setSpeed((int)(((11.0-v.getTotalCO2())/11.0)*this.getSpeedLimit()));
-		return 0;
+		
+		return (int)(((11.0 - v.getContClass()) / 11.0) * this.getSpeedLimit());
 	}
 
 }

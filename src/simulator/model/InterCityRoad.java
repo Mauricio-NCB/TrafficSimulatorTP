@@ -1,6 +1,6 @@
 package simulator.model;
 
-public class InterCityRoad extends Road{
+public class InterCityRoad extends Road {
 
 	InterCityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed,
 			int contLimit, int length, Weather weather) {
@@ -10,40 +10,54 @@ public class InterCityRoad extends Road{
 
 	@Override
 	public void reduceTotalContamination() {
-		switch(this.getWeather()){
+		int x;
+		
+		switch(this.getWeather()) {
+		
 		case SUNNY:
-			super.totalCont=((int)((100.0-2)/100.0)*super.totalCont);
+			x = 2;
+			break;
 		case CLOUDY:
-			super.totalCont=((int)((100.0-3)/100.0)*super.totalCont);
+			x = 3;
+			break;
 		case RAINY:
-			super.totalCont=((int)((100.0-10)/100.0)*super.totalCont);
+			x = 10;
+			break;
 		case WINDY:
-			super.totalCont=((int)((100.0-15)/100.0)*super.totalCont);
+			x = 15;
+			break;
 		case STORM:
-			super.totalCont=((int)((100.0-20)/100.0)*super.totalCont);
+			x = 20;
+			break;
+		default: 
+			x = 0;
 		}
 		
+		super.totalCont = (int)(((100.0 - x) / 100.0) * super.totalCont);
 	}
 
 	@Override
 	public void updateSpeedLimit() {
-		if(this.getTotalCO2()>this.getContLimit()){
-			super.currentSpeedLimit = (int)(super.maxSpeed*0.5);
+		if(this.getTotalCO2() > this.getContLimit()){
+			
+			currentSpeedLimit = (int)(this.getMaxSpeed() * 0.5);
 		}
 		else{
-			super.currentSpeedLimit = super.maxSpeed;
+			
+			currentSpeedLimit = this.getMaxSpeed();
 		}
 		
 	}
 
 	@Override
 	public int calculateVehicleSpeed(Vehicle v) {
-		if(this.getWeather()==this.getWeather().STORM){
-			v.setSpeed((int)(this.getSpeedLimit()*0.8));
+		if(this.getWeather() == Weather.STORM){
+			
+			return (int) (getSpeedLimit() * 0.8);
 		}
 		else{
-			v.setSpeed((int)(this.getSpeedLimit()));
+			
+			return getSpeedLimit();
 		}
-		return 0;
 	}
 }

@@ -18,7 +18,7 @@ public class RoadMap {
 	private Map<String,Road> mapStringRoad;
 	private Map<String,Vehicle> mapStringVehicle;
 	
-	protected RoadMap(){
+	RoadMap(){
 		this.junctions = new ArrayList<Junction>();
 		this.roads = new ArrayList<Road>();
 		this.vehicles = new ArrayList<Vehicle>();
@@ -27,68 +27,57 @@ public class RoadMap {
 		this.mapStringVehicle = new HashMap<String, Vehicle>();
 	}
 	
-	public void addJunction(Junction j){
+	void addJunction(Junction j){
 		try{
 			if(mapStringJunction.containsKey(j.getId())){
-				throw new Exception("Existe cruce con mismo identificador.");
+				throw new Exception("Id has been taken by another junction");
 			}
-			junctions.add(j);
-			mapStringJunction.put(j._id, j);
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		junctions.add(j);
+		mapStringJunction.put(j.getId(), j);
 	}
-	public void addRoad(Road r){
+	
+	void addRoad(Road r){
 		try{
-			if((mapStringRoad.containsKey(r.getId()))||(!mapStringJunction.containsValue(r.getSrc())&&(!mapStringJunction.containsValue(r.getDest())))){
-				throw new Exception("Fallo al añadir carretera.");
+			if(mapStringRoad.containsKey(r.getId())){
+				throw new Exception("Road is already on the map");
 			}
-			roads.add(r);
-			mapStringRoad.put(r._id, r);
+			if(!mapStringJunction.containsValue(r.getSrc()) || !mapStringJunction.containsValue(r.getDest())) {
+				throw new Exception("Junctions connected by r are not on the map");
+			}
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		roads.add(r);
+		mapStringRoad.put(r.getId(), r);
 	}
-	public void addVehicle(Vehicle v){
+	
+	void addVehicle(Vehicle v){
 		try{
 			if(mapStringVehicle.containsKey(v.getId())){   
-				throw new Exception("Fallo al añadir vehiculo. Id ya existente");
+				throw new Exception("Id has already be taken by other vehicle");
 			}
-			for(int i=0;i<v.getItinerary().size()-1;i++){
-				if(v.getItinerary().get(i).roadTo(v.getItinerary().get(i+1)) == null){
-					throw new Exception("Fallo al añadir vehiculo. Itinerario no valido");
+			
+			for (Junction j: v.getItinerary()) {
+				if (!mapStringJunction.containsValue(j)) {
+					throw new Exception("Certain junction from itinerary is not in the RoadMap");
 				}
 			}
-			vehicles.add(v);
-			mapStringVehicle.put(v._id, v);
-			
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		vehicles.add(v);
+		mapStringVehicle.put(v.getId(), v);
 	}
-	public void reset(){
-		junctions.clear();
-		roads.clear();
-		vehicles.clear();
-		mapStringJunction.clear();
-		mapStringRoad.clear();
-		mapStringVehicle.clear();
-	}
-	
-	public List<Junction> getJunctions(){
-		return Collections.unmodifiableList(junctions);
-	}
-	
-	public List<Road> getRoads(){
-		return Collections.unmodifiableList(roads);
-	}
-	public List<Vehicle> getVehicles(){
-		return Collections.unmodifiableList(vehicles);
-	}
-	
+
 	public Junction getJunction(String id) {
 		
 		if (mapStringJunction.containsKey(id)) {
@@ -117,24 +106,50 @@ public class RoadMap {
 			return null;
 		}
 	}
+
+	public List<Junction> getJunctions(){
+		return Collections.unmodifiableList(junctions);
+	}
+	
+	public List<Road> getRoads(){
+		return Collections.unmodifiableList(roads);
+	}
+	public List<Vehicle> getVehicles(){
+		return Collections.unmodifiableList(vehicles);
+	}
+	
+	void reset(){
+		junctions.clear();
+		roads.clear();
+		vehicles.clear();
+		mapStringJunction.clear();
+		mapStringRoad.clear();
+		mapStringVehicle.clear();
+	}
 	
 	public JSONObject report() {
 		JSONArray junctionArray = new JSONArray();
 		JSONArray roadArray = new JSONArray();
 		JSONArray vehicleArray = new JSONArray();
+		
+		for (Junction j: junctions) {
+			junctionArray.put(j.report());
+		}
+		
+		for (Road r: roads) {
+			roadArray.put(r.report());
+		}
+		
+		for (Vehicle v: vehicles) {
+			vehicleArray.put(v.report());
+		}
+		
 		JSONObject jo = new JSONObject();
-		for(int i=0;i<junctions.size();i++){
-			junctionArray.put(i, junctions.get(i).report());
-		}
-		for(int i=0;i<roads.size();i++){
-			roadArray.put(i, roads.get(i).report());
-		}
-		for(int i=0;i<vehicles.size();i++){
-			vehicleArray.put(i, vehicles.get(i).report());
-		}
+		
 		jo.put("junctions", junctionArray);
 		jo.put("road", roadArray);
 		jo.put("vehicles", vehicleArray);
+		
 		return jo;
 	}
 
