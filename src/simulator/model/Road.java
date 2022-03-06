@@ -1,11 +1,13 @@
 package simulator.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import simulator.misc.SortedArrayList;
 
 public abstract class Road extends SimulatedObject{
 	
@@ -17,6 +19,7 @@ public abstract class Road extends SimulatedObject{
 	private int contLimit;
 	protected Weather weather;
 	protected int totalCont;
+	private ComparatorVehicles compVLocation;	
 	private List<Vehicle> vehicles;
 	
 	// protected
@@ -39,12 +42,24 @@ public abstract class Road extends SimulatedObject{
 		this.contLimit = contLimit;
 		this.weather = weather;
 		totalCont = 0;
-		vehicles = new ArrayList<Vehicle>();
+		compVLocation = new ComparatorVehicles();
+		vehicles = new SortedArrayList<Vehicle>(compVLocation);
 		
 		srcJunc.addOutGoingRoad(this);
 		destJunc.addIncommingRoad(this);
 		
 	}
+	
+	public static class ComparatorVehicles implements Comparator<Vehicle> {
+
+		@Override
+		public int compare(Vehicle o1, Vehicle o2) {
+			// TODO Auto-generated method stub
+			return o2.getLocation() - o1.getLocation();
+		}
+		
+	}
+	
 	
 	public abstract void reduceTotalContamination();
 	
@@ -64,7 +79,7 @@ public abstract class Road extends SimulatedObject{
 			v.advance(time);
 		}	
 		
-		vehicles.sort((v1, v2) -> v2.getLocation() - v1.getLocation());
+		vehicles.sort(compVLocation);
 	}
 
 	@Override
