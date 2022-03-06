@@ -13,7 +13,7 @@ public class TrafficSimulator {
 	
 	public TrafficSimulator() {
 		roadMap = new RoadMap();
-		eventsList = new SortedArrayList<Event>();
+		eventsList = new SortedArrayList<>();
 		time = 0;
 	}
 
@@ -23,7 +23,7 @@ public class TrafficSimulator {
 	
 	public void advance() {
 		time++;
-		
+
 		while (!eventsList.isEmpty() && eventsList.get(0).getTime() == time) {
 			eventsList.get(0).execute(roadMap);
 			eventsList.remove(0);
