@@ -10,6 +10,7 @@ import org.json.JSONTokener;
 
 import simulator.factories.Factory;
 import simulator.model.Event;
+import simulator.model.TrafficSimObserver;
 import simulator.model.TrafficSimulator;
 
 public class Controller {
@@ -62,5 +63,17 @@ public class Controller {
 		p.println("]");
 		p.println("}");
 
+	}
+	
+	public void addObserver(TrafficSimObserver o) {
+		sim.addObserver(null);
+	}
+	
+	public void removeObserver(TrafficSimObserver o) {
+		sim.removeObserver(null);
+	}
+	
+	public void addEvent (Event e) {
+		sim.addEvent(e);
 	}
 }
