@@ -12,5 +12,9 @@ public class NewInterCityRoadEvent extends NewRoadEvent {
 		// TODO Auto-generated method stub
 		return new InterCityRoad(id, map.getJunction(srcJunc), map.getJunction(destJunc), maxSpeed, co2Limit, length, weather);
 	}
+
+	public String toString() {
+		return "New Intercity Road" + id + "";
+	}
 	
 }

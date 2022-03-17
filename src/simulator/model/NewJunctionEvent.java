@@ -26,4 +26,7 @@ public class NewJunctionEvent extends Event {
 		map.addJunction(j);
 	}
 
+	public String toString() {
+		return "New Junction" + id + "";
+	}
 }

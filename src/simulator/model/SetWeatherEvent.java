@@ -30,4 +30,8 @@ public class SetWeatherEvent extends Event {
 		}
 	}
 
+	public String toString() {
+		return "New Weather" + ws.get(0) + "";
+	}
+	
 }

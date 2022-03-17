@@ -31,4 +31,8 @@ public class SetContClassEvent extends Event {
 		}
 	}
 
+	public String toString() {
+		return "Set Contamination Class" + cs.get(0) + "";
+	}
+	
 }

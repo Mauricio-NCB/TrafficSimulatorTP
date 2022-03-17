@@ -66,11 +66,11 @@ public class Controller {
 	}
 	
 	public void addObserver(TrafficSimObserver o) {
-		sim.addObserver(null);
+		sim.addObserver(o);
 	}
 	
 	public void removeObserver(TrafficSimObserver o) {
-		sim.removeObserver(null);
+		sim.removeObserver(o);
 	}
 	
 	public void addEvent (Event e) {

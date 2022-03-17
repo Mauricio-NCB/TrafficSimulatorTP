@@ -33,4 +33,8 @@ public class NewVehicleEvent extends Event {
 		v.moveToNextRoad();
 	}
 
+	public String toString() {
+		return "New Vehicle" + id + "";
+	}
+	
 }
