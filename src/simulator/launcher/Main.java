@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -15,11 +17,14 @@ import org.apache.commons.cli.ParseException;
 import simulator.control.Controller;
 import simulator.factories.*;
 import simulator.model.*;
+import simulator.view.MainWindow;
 
 public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
+	private final static String _modeDefaultValue = "gui";
 	private static Integer _ticks;
+	private static String _mode;
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
@@ -41,7 +46,8 @@ public class Main {
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseTicksOption(line);
-
+			parseModeOption(line);
+			
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
 			//
@@ -63,13 +69,21 @@ public class Main {
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
 
-		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
+		cmdLineOptions.addOption(
+				Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
+		
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
-		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
+		
+		cmdLineOptions.addOption(
+				Option.builder("h").longOpt("help").desc("Print this message").build());
+		
 		cmdLineOptions.addOption(
 				Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator`s main loop (default value is 10).").build());
-
+		
+		cmdLineOptions.addOption(
+				Option.builder("m").longOpt("mode").hasArg().desc("Console mode or Gui mode").build());
+		
 		return cmdLineOptions;
 	}
 
@@ -100,7 +114,17 @@ public class Main {
 			_ticks = _timeLimitDefaultValue;
 		}
 	}
-		private static void initFactories() {
+	
+	private static void parseModeOption(CommandLine line) throws ParseException {
+		if (line.hasOption("m")) {
+			_mode = line.getOptionValue("m");
+		}
+		else {
+			_mode = _modeDefaultValue;
+		}
+	}
+	
+	private static void initFactories() {
 
 		// TODO complete this method to initialize _eventsFactory
 		List<Builder<LightSwitchingStrategy>> lssBuilders = new ArrayList<>();
@@ -145,10 +169,39 @@ public class Main {
 		out.close();
 	}
 
+	private static void startGUIMode() throws FileNotFoundException {
+		
+		TrafficSimulator sim = new TrafficSimulator();
+		Controller controller = new Controller(sim, _eventsFactory);
+		
+		if (_inFile != null) {
+			InputStream in = new FileInputStream(_inFile);
+			controller.loadEvents(in);
+		}
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				new MainWindow(controller);
+			}
+			
+		});
+		
+	}
+	
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args);
-		startBatchMode();
+		
+		if (_mode.equals("gui")) {
+			startGUIMode();
+		}
+		else {
+			startBatchMode();
+		}
+		
 	}
 
 	// example command lines:
