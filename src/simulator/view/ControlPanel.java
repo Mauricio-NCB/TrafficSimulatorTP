@@ -46,6 +46,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		toolbar.add(correr);
 		toolbar.add(parar);
 		toolbar.add(Salida);
+		toolbar.setFloatable(false);
 		this.add(toolbar, BorderLayout.PAGE_START);
 	}
 
