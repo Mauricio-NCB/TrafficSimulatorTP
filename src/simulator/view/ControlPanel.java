@@ -1,8 +1,15 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
+import java.awt.Image;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -21,8 +28,25 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void initGUI() {
-		// TODO Auto-generated method stub
-		
+		JToolBar toolbar = new JToolBar();
+		JFileChooser fc = new JFileChooser();
+		JButton Salida = new JButton();
+		JButton correr = new JButton();
+		JButton parar = new JButton();
+		JButton cargar = new JButton();
+		try {
+			 correr.setIcon(new ImageIcon("resources/icons/run.png"));
+			 parar.setIcon(new ImageIcon("resources/icons/stop.png"));
+			 Salida.setIcon(new ImageIcon("resources/icons/exit.png"));
+			 cargar.setIcon(new ImageIcon("resources/icons/open.png"));
+			} catch (Exception ex) {
+		 System.out.println(ex);
+		}
+		toolbar.add(cargar);
+		toolbar.add(correr);
+		toolbar.add(parar);
+		toolbar.add(Salida);
+		this.add(toolbar, BorderLayout.PAGE_START);
 	}
 
 	@Override
