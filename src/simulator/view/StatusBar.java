@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simulator.control.Controller;
@@ -12,6 +13,8 @@ import simulator.model.TrafficSimObserver;
 public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	private Controller ctrl;
+	private JLabel currentTime;
+	private JLabel currentEvent;
 	
 	public StatusBar(Controller ctrl) {
 		super();
@@ -22,6 +25,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	
 	private void initGUI() {
 		// TODO Auto-generated method stub
+		
 		
 	}
 

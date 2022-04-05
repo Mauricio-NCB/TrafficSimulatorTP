@@ -7,22 +7,22 @@ import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
 import simulator.model.Event;
-import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
-public class RoadsTableModel extends AbstractTableModel implements TrafficSimObserver {
+public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver {
 
 	private Controller ctrl;
-	private List<Road> roadsList;
+	private List<Vehicle> vehiclesList;
 	private String[] colNames;
 	
-	public RoadsTableModel(Controller ctrl) {
+	public VehiclesTableModel(Controller ctrl) {
 		
 		this.ctrl = ctrl;
-		roadsList = new ArrayList<>();
-		colNames = new String[] {"Id", "Length", "Weather", "Max Speed", "Speed Limit",
-				"Total CO2", "CO2 Limit"};
+		vehiclesList = new ArrayList<>();
+		colNames = new String[] {"Id", "Location", "Itinerary", "CO2 Class", "Max speed", "Speed",
+				"Total CO2", "Distance"};
 		
 		ctrl.addObserver(this);
 	}
@@ -30,7 +30,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return roadsList.size();
+		return vehiclesList.size();
 	}
 
 	@Override
@@ -42,28 +42,41 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
-		Road r = roadsList.get(rowIndex);
+		Vehicle v = vehiclesList.get(rowIndex);
 		
 		switch(columnIndex) {
 		
 		case 0:
-			return r.getId();
+			return v.getId();
 		case 1:
-			return r.getLength();
+			StringBuilder status = new StringBuilder();
+			
+			switch(v.getStatus()) {
+			
+			case PENDING:
+				return status.append("Pending");
+			case TRAVELING:
+				return status.append(v.getRoad() + ": " + v.getLocation());
+			case WAITING:
+				return status.append("Waiting: " + v.getItinerary());
+			case ARRIVED:
+				return status.append("Arrived");
+			}
 		case 2:
-			return r.getWeather();
+			return v.getItinerary();
 		case 3:
-			return r.getMaxSpeed();
+			return v.getContClass();
 		case 4:
-			return r.getSpeedLimit();
+			return v.getMaxSpeed();
 		case 5:
-			return r.getTotalCO2();
+			return v.getSpeed();
 		case 6:
-			return r.getContLimit();
+			return v.getTotalCO2();
+		case 7:
+			return v.getDistance();
 		default:
 			return null;
 		}
-		
 	}
 
 	@Override
@@ -103,9 +116,8 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	}
 	
 	private void tableDataChanged(RoadMap map) {
-		roadsList = map.getRoads();
+		vehiclesList = map.getVehicles();
 		fireTableDataChanged();
 	}
 
-		
 }
