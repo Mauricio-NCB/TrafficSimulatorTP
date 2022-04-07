@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -58,13 +59,27 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private void initGUI() {
 
 		toolBar = new JToolBar();
+		this.setLayout(new BorderLayout());
+		this.add(toolBar, BorderLayout.PAGE_START);
 		
 		createLoadFileButton();
+		
+		toolBar.addSeparator();
+		
 		createContClassButton();
 		createWeatherButton();
+		
+		toolBar.addSeparator();
+		
 		createRunButton();
 		createStopButton();
+		
+		toolBar.addSeparator();
+		
 		createTicksSpinner();
+		
+		toolBar.add(Box.createHorizontalGlue());
+		
 		createExitButton();
 		
 		toolBar.setFloatable(false);
