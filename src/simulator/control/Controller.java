@@ -70,6 +70,12 @@ public class Controller {
 			
 			for (int i = 0; i < n; i++) {
 				sim.advance();
+				try {
+					Thread.sleep(40);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 
