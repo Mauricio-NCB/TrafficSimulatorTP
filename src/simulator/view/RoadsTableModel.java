@@ -24,7 +24,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 		colNames = new String[] {"Id", "Length", "Weather", "Max Speed", "Speed Limit",
 				"Total CO2", "CO2 Limit"};
 		
-		ctrl.addObserver(this);
+		this.ctrl.addObserver(this);
 	}
 	
 	@Override
@@ -39,6 +39,12 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 		return colNames.length;
 	}
 
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return colNames[column];
+	}
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub

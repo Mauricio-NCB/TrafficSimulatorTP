@@ -14,7 +14,7 @@ public class NewInterCityRoadEvent extends NewRoadEvent {
 	}
 
 	public String toString() {
-		return "New Intercity Road" + id + "";
+		return "New Intercity Road " + "'" + id + "'";
 	}
 	
 }

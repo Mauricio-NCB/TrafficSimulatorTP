@@ -31,7 +31,16 @@ public class SetWeatherEvent extends Event {
 	}
 
 	public String toString() {
-		return "New Weather" + ws.get(0) + "";
+		String chain = "Change Weather: [(" + ws.get(0).getFirst() + "," + ws.get(0).getSecond() + ")" ;
+		String s;
+		
+		for (int i = 1; i < ws.size(); i++) {
+			s = ", (" + ws.get(i).getFirst() + "," + ws.get(i).getSecond() + ")";
+			chain += s;
+		}
+		
+		
+		return chain + "]";
 	}
 	
 }

@@ -27,6 +27,6 @@ public class NewJunctionEvent extends Event {
 	}
 
 	public String toString() {
-		return "New Junction" + id + "";
+		return "New Junction " + "'" + id + "'";
 	}
 }

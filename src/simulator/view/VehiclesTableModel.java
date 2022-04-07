@@ -24,7 +24,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		colNames = new String[] {"Id", "Location", "Itinerary", "CO2 Class", "Max speed", "Speed",
 				"Total CO2", "Distance"};
 		
-		ctrl.addObserver(this);
+		this.ctrl.addObserver(this);
 	}
 	
 	@Override
@@ -39,6 +39,12 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		return colNames.length;
 	}
 
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return colNames[column];
+	}
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub

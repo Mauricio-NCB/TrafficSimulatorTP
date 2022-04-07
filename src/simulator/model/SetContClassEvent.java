@@ -32,7 +32,17 @@ public class SetContClassEvent extends Event {
 	}
 
 	public String toString() {
-		return "Set Contamination Class" + cs.get(0) + "";
+		
+		String chain = "Change CO2 Class: [(" + cs.get(0).getFirst() + "," + cs.get(0).getSecond() + ")" ;
+		String s;
+		
+		for (int i = 1; i < cs.size(); i++) {
+			s = ", (" + cs.get(i).getFirst() + "," + cs.get(i).getSecond() + ")";
+			chain += s;
+		}
+		
+		
+		return chain + "]";
 	}
 	
 }

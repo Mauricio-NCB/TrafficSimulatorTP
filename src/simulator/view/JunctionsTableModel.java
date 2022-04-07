@@ -19,12 +19,12 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private String[] colNames;
 	
 	public JunctionsTableModel(Controller ctrl) {
-		
+
 		this.ctrl = ctrl;
 		junctionsList = new ArrayList<>();
 		colNames = new String[] {"Id", "Green", "Queues"};
 		
-		ctrl.addObserver(this);
+		this.ctrl.addObserver(this);
 	}
 
 	@Override
@@ -39,6 +39,12 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 		return colNames.length;
 	}
 
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return colNames[column];
+	}
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
