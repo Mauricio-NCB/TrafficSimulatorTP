@@ -245,7 +245,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void stop_sim() {
-		//
+		stopped = true;
 	}
 	
 	
@@ -287,7 +287,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void exit_sim() {
-		//
+		System.exit(0);
 	}
 	
 	
