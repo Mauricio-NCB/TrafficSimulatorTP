@@ -139,7 +139,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				//changeCO2Class();
 				setVehicleContClass();
 			}
 			
@@ -278,8 +278,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				exit_sim();
+				int seleccion = JOptionPane.showOptionDialog(null,"Quieres Salir?",null,JOptionPane.YES_NO_OPTION,
+						   JOptionPane.QUESTION_MESSAGE,null,new Object[] { "Sí", "No"},"opcion 1");
+				if(seleccion == 0) {
+					exit_sim();
+				}
 			}
 		});
 		
