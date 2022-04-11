@@ -139,7 +139,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//changeCO2Class();
+				changeCO2Class();
 				setVehicleContClass();
 			}
 			
@@ -153,7 +153,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	
-	
+	public void changeCO2Class() {
+		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog();
+		CO2D.initGUI();
+		CO2D.open(roadMap.getVehicles());
+	}
 	//Setting road weather
 	
 	private void createWeatherButton() {
@@ -164,7 +168,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				changeWeather();
 				setRoadWeather();
 			}
 		});
@@ -174,6 +178,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	private void setRoadWeather() {
 		//
+	}
+	
+	public void changeWeather(){
+		ChangeWeatherDialog WD = new ChangeWeatherDialog();
+		
 	}
 	
 	

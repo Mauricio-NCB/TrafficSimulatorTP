@@ -8,10 +8,13 @@ import simulator.model.Road;
 import simulator.model.Weather;
 
 public class ChangeWeatherDialog extends JDialog {
+	
+	private static final long serialVersionUID = 1L;
+	
 	int estado;
-	JComboBox<Road> RoadCB;
-	JSpinner ticks;
-	JComboBox<Weather> WeatherCB;
+	private JComboBox<Road> RoadCB;
+	private JSpinner ticks;
+	private JComboBox<Weather> WeatherCB;
 	
 	public int getTicks() {
 		return (int)ticks.getValue();
@@ -23,5 +26,9 @@ public class ChangeWeatherDialog extends JDialog {
 	
 	public Weather getWeather() {
 		return (Weather)WeatherCB.getSelectedItem();
+	}
+	
+	public int open() {
+		return estado;
 	}
 }
