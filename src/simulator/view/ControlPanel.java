@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -154,7 +155,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	
 	public void changeCO2Class() {
-		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog();
+		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
 		
 		int status = CO2D.open(roadMap.getVehicles());
 		

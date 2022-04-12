@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -27,7 +28,8 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JSpinner ticks;
 	private JComboBox<Integer> IntegerCB;
 	
-	public ChangeCO2ClassDialog() {
+	public ChangeCO2ClassDialog(Frame parent) {
+		super(parent, true);
 		initGUI();
 	}
 	
@@ -37,7 +39,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 	
 	public void initGUI() {
 		
-		ChangeCO2ClassDialog.this.setVisible(true);
+		estado = 0;
 
 		setTitle("Change CO2 class");
 		JPanel mainPanel = new JPanel();
@@ -63,6 +65,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		vehicleModel = new DefaultComboBoxModel<>();
 		VehicleCB = new JComboBox<>(vehicleModel);
+
 		viewsPanel.add(VehicleCB);
 		
 		IntegerCB = new JComboBox<>();
@@ -94,6 +97,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		setPreferredSize(new Dimension(500, 200));
 		pack();
 		setResizable(false);
+		setVisible(false);
 		
 	} 
 	public Vehicle getVehicle() {
