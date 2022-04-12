@@ -27,14 +27,11 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private DefaultComboBoxModel<Vehicle> vehicleModel;
 	private JSpinner ticks;
 	private JComboBox<Integer> IntegerCB;
+	private DefaultComboBoxModel<Integer> integerModel;
 	
 	public ChangeCO2ClassDialog(Frame parent) {
 		super(parent, true);
 		initGUI();
-	}
-	
-	public int getTicks() {
-		return (int)ticks.getValue();
 	}
 	
 	public void initGUI() {
@@ -65,11 +62,14 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		vehicleModel = new DefaultComboBoxModel<>();
 		VehicleCB = new JComboBox<>(vehicleModel);
-
 		viewsPanel.add(VehicleCB);
 		
-		IntegerCB = new JComboBox<>();
+		integerModel = new DefaultComboBoxModel<>();
+		IntegerCB = new JComboBox<>(integerModel);
 		viewsPanel.add(IntegerCB);
+		
+		ticks = new JSpinner();		
+		viewsPanel.add(ticks);
 
 
 		JButton cancelButton = new JButton("Cancel");
@@ -100,6 +100,11 @@ public class ChangeCO2ClassDialog extends JDialog {
 		setVisible(false);
 		
 	} 
+	
+	public int getTicks() {
+		return (int)ticks.getValue();
+	}
+	
 	public Vehicle getVehicle() {
 		return (Vehicle)VehicleCB.getSelectedItem();
 	}
@@ -116,6 +121,11 @@ public class ChangeCO2ClassDialog extends JDialog {
 		vehicleModel.removeAllElements();
 		for (Vehicle v : vehicles)
 			vehicleModel.addElement(v);
+		
+		integerModel.removeAllElements();
+		for (int i=0; i<=10;i++) {
+			integerModel.addElement(i);
+		}
 
 		// You can chenge this to place the dialog in the middle of the parent window.
 		// It can be done using uing getParent().getWidth, this.getWidth(),
@@ -126,4 +136,5 @@ public class ChangeCO2ClassDialog extends JDialog {
 		setVisible(true);
 		return estado;
 	}
+	
 }

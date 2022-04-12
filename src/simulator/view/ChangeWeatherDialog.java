@@ -1,11 +1,14 @@
 package simulator.view;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -22,16 +25,22 @@ public class ChangeWeatherDialog extends JDialog {
 	
 	int estado;
 	private JComboBox<Road> RoadCB;
+	private DefaultComboBoxModel<Road> roadModel;
 	private JSpinner ticks;
 	private JComboBox<Weather> WeatherCB;
+	private DefaultComboBoxModel<Weather> weatherModel;
+	private Weather[] weathers = Weather.values();
 	
-public void initGUI() {
-		
-	ChangeWeatherDialog.this.setVisible(true);
+	public ChangeWeatherDialog(Frame parent) {
+		super(parent, true);
+		initGUI();
+	}
+	
+	public void initGUI() {
 
 		estado = 0;
 
-		setTitle("Change CO2 class");
+		setTitle("Change Road Weather");
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		setContentPane(mainPanel);
@@ -53,9 +62,16 @@ public void initGUI() {
 		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(buttonsPanel);
 		
-		RoadCB = new JComboBox<>();
+		roadModel = new DefaultComboBoxModel<>();
+		RoadCB = new JComboBox<>(roadModel);
 		viewsPanel.add(RoadCB);
-
+		
+		weatherModel = new DefaultComboBoxModel<>();
+		WeatherCB = new JComboBox<>(weatherModel);
+		viewsPanel.add(WeatherCB);
+		
+		ticks = new JSpinner();		
+		viewsPanel.add(ticks);
 
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
@@ -97,7 +113,23 @@ public void initGUI() {
 		return (Weather)WeatherCB.getSelectedItem();
 	}
 	
-	public int open() {
+	public int open(List<Road> roads) {
+		roadModel.removeAllElements();
+		for (Road r : roads)
+			roadModel.addElement(r);
+		
+		weatherModel.removeAllElements();
+		for (Weather w : weathers) {
+			weatherModel.addElement(w);
+		}
+
+		// You can chenge this to place the dialog in the middle of the parent window.
+		// It can be done using uing getParent().getWidth, this.getWidth(),
+		// getParent().getHeight, and this.getHeight(), etc.
+		//
+		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
+
+		setVisible(true);
 		return estado;
 	}
 }

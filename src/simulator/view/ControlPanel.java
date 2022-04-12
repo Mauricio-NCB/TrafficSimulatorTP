@@ -189,8 +189,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	public void changeWeather(){
-		ChangeWeatherDialog WD = new ChangeWeatherDialog();
-		WD.initGUI();
+		ChangeWeatherDialog WD = new ChangeWeatherDialog((Frame) SwingUtilities.getWindowAncestor(this));
+		int status = WD.open(roadMap.getRoads());
+		
+		if (status == 0) {
+			System.out.println("Canceled");
+		} else {
+			System.out.println("Your favorite dish is:");
+		}
 	}
 	
 	
