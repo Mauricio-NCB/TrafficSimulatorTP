@@ -140,7 +140,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changeCO2Class();
-				setVehicleContClass();
+				//setVehicleContClass();
 			}
 			
 		});
@@ -155,8 +155,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	public void changeCO2Class() {
 		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog();
-		CO2D.open(roadMap.getVehicles());
-		CO2D.initGUI();
+		
+		int status = CO2D.open(roadMap.getVehicles());
+		
+		if (status == 0) {
+			System.out.println("Canceled");
+		} else {
+			System.out.println("Your favorite dish is: " + CO2D.getVehicle());
+		}
 		
 	}
 	//Setting road weather

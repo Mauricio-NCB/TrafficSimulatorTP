@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
-import extra.dialog.Dish;
 import simulator.model.Vehicle;
 
 public class ChangeCO2ClassDialog extends JDialog {
@@ -28,6 +27,10 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JSpinner ticks;
 	private JComboBox<Integer> IntegerCB;
 	
+	public ChangeCO2ClassDialog() {
+		initGUI();
+	}
+	
 	public int getTicks() {
 		return (int)ticks.getValue();
 	}
@@ -35,8 +38,6 @@ public class ChangeCO2ClassDialog extends JDialog {
 	public void initGUI() {
 		
 		ChangeCO2ClassDialog.this.setVisible(true);
-
-		estado = 0;
 
 		setTitle("Change CO2 class");
 		JPanel mainPanel = new JPanel();
@@ -108,7 +109,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		// update the comboxBox model -- if you always use the same no
 		// need to update it, you can initialize it in the constructor.
 		//
-		//vehicleModel.removeAllElements();
+		vehicleModel.removeAllElements();
 		for (Vehicle v : vehicles)
 			vehicleModel.addElement(v);
 
@@ -116,7 +117,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		// It can be done using uing getParent().getWidth, this.getWidth(),
 		// getParent().getHeight, and this.getHeight(), etc.
 		//
-		setLocation(getParent().getLocation().x + 5, getParent().getLocation().y + 5);
+		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
 
 		setVisible(true);
 		return estado;
