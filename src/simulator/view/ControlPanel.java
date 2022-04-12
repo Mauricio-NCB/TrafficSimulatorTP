@@ -155,8 +155,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	public void changeCO2Class() {
 		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog();
-		CO2D.initGUI();
 		CO2D.open(roadMap.getVehicles());
+		CO2D.initGUI();
+		
 	}
 	//Setting road weather
 	
@@ -182,7 +183,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	public void changeWeather(){
 		ChangeWeatherDialog WD = new ChangeWeatherDialog();
-		
+		WD.initGUI();
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import extra.dialog.Dish;
 import simulator.model.Vehicle;
 
 public class ChangeCO2ClassDialog extends JDialog {
@@ -22,6 +24,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 	
 	int estado;
 	private JComboBox<Vehicle> VehicleCB;
+	private DefaultComboBoxModel<Vehicle> vehicleModel;
 	private JSpinner ticks;
 	private JComboBox<Integer> IntegerCB;
 	
@@ -57,8 +60,12 @@ public class ChangeCO2ClassDialog extends JDialog {
 		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(buttonsPanel);
 		
-		VehicleCB = new JComboBox<>();
+		vehicleModel = new DefaultComboBoxModel<>();
+		VehicleCB = new JComboBox<>(vehicleModel);
 		viewsPanel.add(VehicleCB);
+		
+		IntegerCB = new JComboBox<>();
+		viewsPanel.add(IntegerCB);
 
 
 		JButton cancelButton = new JButton("Cancel");
@@ -101,9 +108,9 @@ public class ChangeCO2ClassDialog extends JDialog {
 		// update the comboxBox model -- if you always use the same no
 		// need to update it, you can initialize it in the constructor.
 		//
-		VehicleCB.removeAllItems();
+		//vehicleModel.removeAllElements();
 		for (Vehicle v : vehicles)
-			VehicleCB.addItem(v);
+			vehicleModel.addElement(v);
 
 		// You can chenge this to place the dialog in the middle of the parent window.
 		// It can be done using uing getParent().getWidth, this.getWidth(),
