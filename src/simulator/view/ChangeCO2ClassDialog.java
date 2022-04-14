@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import simulator.model.Event;
+import simulator.model.SetContClassEvent;
 import simulator.model.Vehicle;
 
 public class ChangeCO2ClassDialog extends JDialog {
@@ -60,13 +62,22 @@ public class ChangeCO2ClassDialog extends JDialog {
 		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(buttonsPanel);
 		
+		JLabel vehicleMsg = new JLabel("Vehicle: ");
+		viewsPanel.add(vehicleMsg);
+		
 		vehicleModel = new DefaultComboBoxModel<>();
 		VehicleCB = new JComboBox<>(vehicleModel);
 		viewsPanel.add(VehicleCB);
 		
+		JLabel integerMsg = new JLabel("Contamination: ");
+		viewsPanel.add(integerMsg);
+		
 		integerModel = new DefaultComboBoxModel<>();
 		IntegerCB = new JComboBox<>(integerModel);
 		viewsPanel.add(IntegerCB);
+		
+		JLabel ticksMsg = new JLabel("Ticks: ");
+		viewsPanel.add(ticksMsg);
 		
 		ticks = new JSpinner();		
 		viewsPanel.add(ticks);
@@ -112,6 +123,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 	public int getCO2Class() {
 		return (int)IntegerCB.getSelectedItem();
 	}
+
 	
 	public int open(List<Vehicle> vehicles) {
 

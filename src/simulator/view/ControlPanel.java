@@ -3,7 +3,6 @@ package simulator.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,12 +24,18 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
+import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.RoadMap;
+import simulator.model.SetContClassEvent;
+import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
+import simulator.model.Weather;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver {
 
+	private static final long serialVersionUID = 1L;
 	private Controller ctrl;
 	private boolean stopped;
 	private RoadMap roadMap;
@@ -47,6 +51,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private JLabel ticksLabel;
 	private JSpinner ticksSpinner;
 	private JButton exitButton;
+	private List<Pair<String, Integer>> parejaCO2;
+	private List<Pair<String, Weather>> parejaWD;
 
 	
 	public ControlPanel(Controller ctrl) {
@@ -141,7 +147,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changeCO2Class();
-				//setVehicleContClass();
 			}
 			
 		});
@@ -149,11 +154,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		toolBar.add(changeContClassButton);
 	}
 	
-	private void setVehicleContClass() {
-		//
-	}
+
 	
-	
+
 	public void changeCO2Class() {
 		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
 		
@@ -162,7 +165,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		if (status == 0) {
 			System.out.println("Canceled");
 		} else {
-			System.out.println("Your favorite dish is: " + CO2D.getVehicle());
+			if(CO2D.getVehicle() != null) {
+				ctrl.addEvent(new SetContClassEvent(time+CO2D.getTicks(),parejaCO2));
+			}
+			else {
+				System.out.println("Vehiculo nulo.");
+			}
 		}
 		
 	}
@@ -177,15 +185,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changeWeather();
-				setRoadWeather();
 			}
 		});
 		
 		toolBar.add(changeWeatherButton);
-	}
-	
-	private void setRoadWeather() {
-		//
 	}
 	
 	public void changeWeather(){
@@ -195,7 +198,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		if (status == 0) {
 			System.out.println("Canceled");
 		} else {
-			System.out.println("Your favorite dish is:");
+			if(WD.getRoad() != null) {
+				ctrl.addEvent(new SetWeatherEvent(time+WD.getTicks(),parejaWD));
+			}
+			else {
+				System.out.println("Vehiculo nulo.");
+			}
 		}
 	}
 	

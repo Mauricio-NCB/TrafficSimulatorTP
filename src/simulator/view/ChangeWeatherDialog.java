@@ -62,13 +62,22 @@ public class ChangeWeatherDialog extends JDialog {
 		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(buttonsPanel);
 		
+		JLabel roadMsg = new JLabel("Road: ");
+		viewsPanel.add(roadMsg);
+		
 		roadModel = new DefaultComboBoxModel<>();
 		RoadCB = new JComboBox<>(roadModel);
 		viewsPanel.add(RoadCB);
 		
+		JLabel weatherMsg = new JLabel("Weather: ");
+		viewsPanel.add(weatherMsg);
+		
 		weatherModel = new DefaultComboBoxModel<>();
 		WeatherCB = new JComboBox<>(weatherModel);
 		viewsPanel.add(WeatherCB);
+		
+		JLabel ticksMsg = new JLabel("Ticks: ");
+		viewsPanel.add(ticksMsg);
 		
 		ticks = new JSpinner();		
 		viewsPanel.add(ticks);
