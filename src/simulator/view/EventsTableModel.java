@@ -11,7 +11,8 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
 public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver {
-	
+
+	private static final long serialVersionUID = 1L;
 	private Controller ctrl;
 	private List<Event> eventsList;
 	private String[] colNames;

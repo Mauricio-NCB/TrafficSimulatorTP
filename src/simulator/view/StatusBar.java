@@ -17,7 +17,8 @@ import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver {
 
-	private final static String _noEvent = "Go Speed Racer! Go!";
+	private static final long serialVersionUID = 1L;
+	private static final String _noEvent = "Go Speed Racer! Go!";
 	
 	private Controller ctrl;
 	private JLabel currentTime;

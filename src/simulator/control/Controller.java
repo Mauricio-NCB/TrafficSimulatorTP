@@ -10,10 +10,11 @@ import org.json.JSONTokener;
 
 import simulator.factories.Factory;
 import simulator.model.Event;
+import simulator.model.Observable;
 import simulator.model.TrafficSimObserver;
 import simulator.model.TrafficSimulator;
 
-public class Controller {
+public class Controller implements Observable<TrafficSimObserver> {
 	
 	private TrafficSimulator sim;
 	private Factory<Event> eventsFactory;

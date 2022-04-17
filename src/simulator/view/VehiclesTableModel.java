@@ -13,6 +13,7 @@ import simulator.model.Vehicle;
 
 public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver {
 
+	private static final long serialVersionUID = 1L;
 	private Controller ctrl;
 	private List<Vehicle> vehiclesList;
 	private String[] colNames;

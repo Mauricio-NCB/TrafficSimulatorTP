@@ -22,7 +22,8 @@ import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver {
-	
+
+	private static final long serialVersionUID = 1L;
 	private static final int _JRADIUS = 10;
 	private static final int _GENERIC_SIZE = 32;
 
@@ -38,7 +39,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	private Image _car;
 	
 	public MapByRoadComponent(Controller ctrl) {
-		super();
+
 		initGUI();
 		setPreferredSize(new Dimension(300, 200));
 		ctrl.addObserver(this);
@@ -74,7 +75,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		g.clearRect(0, 0, getWidth(), getHeight());
 
 		if (_map == null || _map.getJunctions().size() == 0) {
-			g.setColor(Color.red);
+			g.setColor(_RED_LIGHT_COLOR);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
 			drawMap(g);

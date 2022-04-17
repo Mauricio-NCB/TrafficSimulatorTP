@@ -15,6 +15,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import simulator.model.Road;
 import simulator.model.Weather;
@@ -23,7 +24,7 @@ public class ChangeWeatherDialog extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 	
-	int estado;
+	int status;
 	private JComboBox<Road> RoadCB;
 	private DefaultComboBoxModel<Road> roadModel;
 	private JSpinner ticks;
@@ -38,7 +39,7 @@ public class ChangeWeatherDialog extends JDialog {
 	
 	public void initGUI() {
 
-		estado = 0;
+		status = 0;
 
 		setTitle("Change Road Weather");
 		JPanel mainPanel = new JPanel();
@@ -50,13 +51,13 @@ public class ChangeWeatherDialog extends JDialog {
 
 		mainPanel.add(helpMsg);
 
-		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
 		JPanel viewsPanel = new JPanel();
 		viewsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(viewsPanel);
 
-		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -76,10 +77,13 @@ public class ChangeWeatherDialog extends JDialog {
 		WeatherCB = new JComboBox<>(weatherModel);
 		viewsPanel.add(WeatherCB);
 		
-		JLabel ticksMsg = new JLabel("Ticks: ");
-		viewsPanel.add(ticksMsg);
+		JLabel ticksMsg = new JLabel("Ticks: ", JLabel.CENTER);
+		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 99999, 1));
+		ticks.setMinimumSize(new Dimension(80, 30));
+		ticks.setMaximumSize(new Dimension(200, 30));
+		ticks.setPreferredSize(new Dimension(80, 30));
 		
-		ticks = new JSpinner();		
+		viewsPanel.add(ticksMsg);
 		viewsPanel.add(ticks);
 
 		JButton cancelButton = new JButton("Cancel");
@@ -87,7 +91,7 @@ public class ChangeWeatherDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				estado = 0;
+				status = 0;
 				ChangeWeatherDialog.this.setVisible(false);
 			}
 		});
@@ -98,7 +102,7 @@ public class ChangeWeatherDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				estado = 1;
+				status = 1;
 				ChangeWeatherDialog.this.setVisible(false);
 			}
 		});
@@ -107,6 +111,7 @@ public class ChangeWeatherDialog extends JDialog {
 		setPreferredSize(new Dimension(500, 200));
 		pack();
 		setResizable(false);
+		setVisible(false);
 		
 	} 
 	
@@ -124,6 +129,7 @@ public class ChangeWeatherDialog extends JDialog {
 	
 	public int open(List<Road> roads) {
 		roadModel.removeAllElements();
+		
 		for (Road r : roads)
 			roadModel.addElement(r);
 		
@@ -139,6 +145,7 @@ public class ChangeWeatherDialog extends JDialog {
 		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
 
 		setVisible(true);
-		return estado;
+		
+		return status;
 	}
 }

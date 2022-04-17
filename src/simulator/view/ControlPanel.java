@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -30,7 +31,6 @@ import simulator.model.RoadMap;
 import simulator.model.SetContClassEvent;
 import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
-import simulator.model.Vehicle;
 import simulator.model.Weather;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver {
@@ -51,8 +51,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private JLabel ticksLabel;
 	private JSpinner ticksSpinner;
 	private JButton exitButton;
-	private List<Pair<String, Integer>> parejaCO2;
-	private List<Pair<String, Weather>> parejaWD;
+
 
 	
 	public ControlPanel(Controller ctrl) {
@@ -158,22 +157,28 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 
 	public void changeCO2Class() {
-		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
 		
+		ChangeCO2ClassDialog CO2D = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
 		int status = CO2D.open(roadMap.getVehicles());
 		
-		if (status == 0) {
-			System.out.println("Canceled");
-		} else {
+		if (status != 0) {
+			
+			List<Pair<String, Integer>> parejaCO2 = new ArrayList<>();
+			parejaCO2.add(new Pair<String, Integer>(CO2D.getVehicle().getId(), CO2D.getCO2Class()));
+			
+			
 			if(CO2D.getVehicle() != null) {
-				ctrl.addEvent(new SetContClassEvent(time+CO2D.getTicks(),parejaCO2));
+				ctrl.addEvent(new SetContClassEvent(time + CO2D.getTicks(), parejaCO2));
 			}
 			else {
-				System.out.println("Vehiculo nulo.");
+				//
 			}
 		}
 		
 	}
+	
+	
+	
 	//Setting road weather
 	
 	private void createWeatherButton() {
@@ -192,17 +197,20 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	public void changeWeather(){
+		
 		ChangeWeatherDialog WD = new ChangeWeatherDialog((Frame) SwingUtilities.getWindowAncestor(this));
 		int status = WD.open(roadMap.getRoads());
 		
-		if (status == 0) {
-			System.out.println("Canceled");
-		} else {
+		if (status != 0) {
+			
+			List<Pair<String, Weather>> parejaWD = new ArrayList<>();
+			parejaWD.add(new Pair<String, Weather>(WD.getRoad().getId(), WD.getWeather()));
+			
 			if(WD.getRoad() != null) {
-				ctrl.addEvent(new SetWeatherEvent(time+WD.getTicks(),parejaWD));
+				ctrl.addEvent(new SetWeatherEvent(time + WD.getTicks(), parejaWD));
 			}
 			else {
-				System.out.println("Vehiculo nulo.");
+				
 			}
 		}
 	}
@@ -287,7 +295,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		
 		ticksLabel = new JLabel("Ticks: ", JLabel.CENTER);
 		
-		ticksSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 99999, 1));
+		ticksSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 99999, 1));
 		ticksSpinner.setMinimumSize(new Dimension(80, 30));
 		ticksSpinner.setMaximumSize(new Dimension(200, 30));
 		ticksSpinner.setPreferredSize(new Dimension(80, 30));

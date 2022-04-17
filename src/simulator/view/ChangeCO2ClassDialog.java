@@ -15,16 +15,15 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
-import simulator.model.Event;
-import simulator.model.SetContClassEvent;
 import simulator.model.Vehicle;
 
 public class ChangeCO2ClassDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
-	int estado;
+	int status;
 	private JComboBox<Vehicle> VehicleCB;
 	private DefaultComboBoxModel<Vehicle> vehicleModel;
 	private JSpinner ticks;
@@ -38,7 +37,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 	
 	public void initGUI() {
 		
-		estado = 0;
+		status = 0;
 
 		setTitle("Change CO2 class");
 		JPanel mainPanel = new JPanel();
@@ -50,13 +49,13 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 		mainPanel.add(helpMsg);
 
-		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
 		JPanel viewsPanel = new JPanel();
 		viewsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(viewsPanel);
 
-		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -76,19 +75,21 @@ public class ChangeCO2ClassDialog extends JDialog {
 		IntegerCB = new JComboBox<>(integerModel);
 		viewsPanel.add(IntegerCB);
 		
-		JLabel ticksMsg = new JLabel("Ticks: ");
-		viewsPanel.add(ticksMsg);
+		JLabel ticksMsg = new JLabel("Ticks: ", JLabel.CENTER);
+		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 99999, 1));
+		ticks.setMinimumSize(new Dimension(80, 30));
+		ticks.setMaximumSize(new Dimension(200, 30));
+		ticks.setPreferredSize(new Dimension(80, 30));
 		
-		ticks = new JSpinner();		
+		viewsPanel.add(ticksMsg);
 		viewsPanel.add(ticks);
-
 
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				estado = 0;
+				status = 0;
 				ChangeCO2ClassDialog.this.setVisible(false);
 			}
 		});
@@ -99,7 +100,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				estado = 1;
+				status = 1;
 				ChangeCO2ClassDialog.this.setVisible(false);
 			}
 		});
@@ -146,7 +147,8 @@ public class ChangeCO2ClassDialog extends JDialog {
 		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
 
 		setVisible(true);
-		return estado;
+		
+		return status;
 	}
 	
 }

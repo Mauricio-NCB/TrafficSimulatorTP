@@ -188,24 +188,28 @@ public class Main {
 		
 	}
 	
-	private static void start(String[] args) throws IOException {
+	private static void start(String[] args) throws Exception {
 		initFactories();
 		parseArgs(args);
 		
 		if (_mode.equals("gui")) {
 			startGUIMode();
 		}
-		else {
+		else if (_mode.equals("console")){
 			startBatchMode();
+		}
+		else {
+			throw new Exception("Mode only can be gui or console");
 		}
 		
 	}
-
+	
 	// example command lines:
 	//
 	// -i resources/examples/ex1.json
 	// -i resources/examples/ex1.json -t 300
 	// -i resources/examples/ex1.json -o resources/tmp/ex1.out.json
+	// -i -o -t -m
 	// --help
 
 	public static void main(String[] args) {
